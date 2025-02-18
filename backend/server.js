@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const http = require("http");
+const path = require("path");
 
 dotenv.config();
 const app = express();
@@ -14,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("../frontend/public")); // Server statiske filer
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // WebSocket opsætning
 io.on("connection", (socket) => {
@@ -22,10 +23,10 @@ io.on("connection", (socket) => {
 
   socket.on("place_bet", (bet) => {
     console.log(`Bruger placerede et bet: ${bet}`);
-    
+
     // Simulerer et roulette-spin (random number fra 0-36)
     const result = Math.floor(Math.random() * 37);
-    
+
     // Sender resultatet til alle spillere
     io.emit("spin_result", result);
   });
