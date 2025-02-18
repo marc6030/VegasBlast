@@ -17,6 +17,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 
+app.get("/api/test", (req, res) => {
+  res.json({ message: "API fungerer!" });
+});
+
+
 // WebSocket opsætning
 io.on("connection", (socket) => {
   console.log("En bruger er forbundet!");
