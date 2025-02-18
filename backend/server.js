@@ -15,12 +15,19 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "../frontend/public")));
 
+// 📌 Server frontend fra `dist/` (i produktion)
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// API Route Test
 app.get("/api/test", (req, res) => {
   res.json({ message: "API fungerer!" });
 });
 
+// 📌 Server alle andre ruter fra frontendens `index.html`
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 // WebSocket opsætning
 io.on("connection", (socket) => {
