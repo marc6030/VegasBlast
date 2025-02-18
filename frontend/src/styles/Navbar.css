@@ -1,0 +1,52 @@
+/* Standard navbar styling */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #222;
+  color: white;
+  padding: 15px 20px; /* Standard padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Sørg for, at den ligger øverst */
+  box-sizing: border-box;
+}
+
+/* Navigation links container */
+.nav-links {
+  display: flex;
+  gap: 20px; /* Ens afstand mellem links */
+  list-style: none;
+}
+
+/* Styling for links */
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+  padding: 5px 10px; /* Lidt ekstra klik-område */
+}
+
+/* Hover effekt */
+.nav-links a:hover {
+  color: #facc15; /* Gul farve ved hover */
+}
+
+/* Gør navbar responsiv */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+  }
+}
