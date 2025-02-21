@@ -3,12 +3,12 @@ import "../styles/MineBlast.css";
 
 function MineBlast() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(1000);
-  const [bet, setBet] = useState("");
-  const [placedBet, setPlacedBet] = useState(null);
-  const [currentWinnings, setCurrentWinnings] = useState(0);
-  const [gridSize, setGridSize] = useState(3);
-  const [bombCount, setBombCount] = useState(2);
+  const [balance, setBalance] = useState(parseFloat(10000).toFixed(2));
+  const [bet, setBet] = useState("1000"); // Indsats
+  const [placedBet, setPlacedBet] = useState(null); // Bekræftet indsats
+  const [currentWinnings, setCurrentWinnings] = useState(0); // Gevinst
+  const [gridSize, setGridSize] = useState(3); // Størrelse på spillepladen
+  const [bombCount, setBombCount] = useState(2); // Antal bomber
   const [grid, setGrid] = useState([]);
   const [bombs, setBombs] = useState([]);
   const [gameOver, setGameOver] = useState(false);
@@ -18,31 +18,32 @@ function MineBlast() {
   }, [gridSize, bombCount]);
 
   const startGame = () => {
-    if (placedBet === null || placedBet <= 0) {
-      alert("Du skal placere en gyldig indsats for at starte spillet!");
+    // Ensure placedBet is at least 10 and is a valid number
+    const numericBet = parseInt(bet); // Use parseInt to ensure it's an integer
+    if (numericBet < 100 || isNaN(numericBet)) {
+      alert("Indsatsen skal være mindst 100 coins!");
       return;
     }
-
-    setBalance(balance - placedBet);
+    
+    setPlacedBet(numericBet); // Set the bet
+    setBalance((prev) => Number((prev - numericBet).toFixed(0))); // Update balance after the bet, ensure no decimals
     setGameStarted(true);
     setGameOver(false);
     setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
     setBombs(generateBombs(gridSize, bombCount));
   };
+  
 
   const handleBetChange = (e) => {
-    setBet(e.target.value);
-  };
-
-  const confirmBet = () => {
-    const numericBet = parseFloat(bet);
-    if (numericBet > 0 && numericBet <= balance) {
-      setPlacedBet(numericBet);
-      setCurrentWinnings(0);
-    } else {
-      alert("Indsæt en gyldig indsats, som du har råd til!");
+    const value = e.target.value;
+  
+    // Only allow numbers and prevent decimal points
+    if (/^\d*$/.test(value)) {  // This regex allows only digits (0-9)
+      setBet(value);
     }
   };
+  
+  
 
   const generateBombs = (size, count) => {
     let bombPositions = new Set();
@@ -85,19 +86,18 @@ function MineBlast() {
       )
     );
 
+    // Beregn chancen for at ramme en bombe
     const totalFields = gridSize * gridSize;
-    const safeFields = totalFields - bombCount;
-    const clickedFields = grid.flat().filter(cell => cell === "✅").length;
+    const safeFields = totalFields - bombCount; // Sikre felter
+    const clickedFields = grid.flat().filter(cell => cell === "✅").length + 1; // Inkluderer det nyligt klikkede felt
+    const remainingSafeFields = safeFields - (clickedFields - 1);
 
-    let multiplier = 10;
-    for (let i = 0; i < clickedFields; i++) {
-      multiplier *= (safeFields - i) / (totalFields - i);
-    }
-    multiplier = 1 / multiplier;
-
-    setCurrentWinnings(prev => Math.floor(prev + placedBet * multiplier));
+    if (remainingSafeFields <= 0) return; // Undgå division med 0
+    const multiplier = totalFields / remainingSafeFields;
+    setCurrentWinnings(prev => Number((prev + placedBet / safeFields * multiplier).toFixed(2))); // Forøg gevinsten korrekt
   };
 
+  // Afslører alle bomber
   const revealGrid = () => {
     setGrid(prevGrid =>
       prevGrid.map((row, rowIndex) =>
@@ -130,9 +130,6 @@ function MineBlast() {
             className="bet-input"
             disabled={placedBet !== null}
           />
-          <button onClick={confirmBet} disabled={placedBet !== null}>
-            Bekræft indsats
-          </button>
 
           {placedBet !== null && <p>Din indsats: {placedBet} 💰</p>}
 
