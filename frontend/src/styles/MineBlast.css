@@ -4,19 +4,72 @@
   justify-content: center; /* Centrerer vertikalt */
   align-items: center;     /* Centrerer horisontalt */
   gap: 16px;
+  margin-top: 10%;
+}
+
+.mineblast-container h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    padding: 20px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), inset 0 5px 10px rgba(255, 255, 255, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    position: relative;
+    animation: bubbleFloat 3s infinite ease-in-out;
+}
+
+/* Boble-effekt animation */
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .mineblast-container button {
   font-size: 1.5rem; /* justér tekststørrelse efter behov */
   background-color: lightgreen;
-  border-radius: 10px; /* justér tallet for mere eller mindre rundhed */
+  border-radius: 16px; /* justér tallet for mere eller mindre rundhed */
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2); /* tilføj skygge */
   transition: transform 0.5s; /* gør overgangen glat */
-  padding: 1  2px;
+  border: none;
+  padding: 12px;
 }
 
 .mineblast-container button:hover {
   transform: scale(1.05); /* knappen bliver 10% større */
+}
+
+.bet-input {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px; /* Giver den boble-agtige form */
+  background-color: #f0f4f8; /* Blød, lys baggrund */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Let skygge for dybde */
+  outline: none;
+  font-size: 16px;
+  transition: all 0.3s ease; /* Glidende overgang */
+
+  /* Fjerner pile på number-input i Firefox */
+  -moz-appearance: textfield;
+}
+
+/* Fjerner pile på number-input i Chrome, Safari og Edge */
+.bet-input::-webkit-inner-spin-button,
+.bet-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bet-input:focus {
+  background-color: #e1ecf7; /* Ændrer farven lidt ved fokus */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .grid {
