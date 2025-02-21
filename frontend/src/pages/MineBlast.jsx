@@ -24,6 +24,10 @@ function MineBlast() {
       alert("Indsatsen skal være mindst 100 coins!");
       return;
     }
+    if (numericBet > balance){
+      alert("saldo for lav");
+      return;
+    }
     
     setPlacedBet(numericBet); // Set the bet
     setBalance((prev) => Number((prev - numericBet).toFixed(0))); // Update balance after the bet, ensure no decimals
