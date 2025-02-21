@@ -13,14 +13,9 @@ function MineBlast() {
   const [bombs, setBombs] = useState([]);
   const [gameOver, setGameOver] = useState(false);
 
-  // Initialiserer spillet
   useEffect(() => {
     resetGame();
-  }, []);
-
-  useEffect(() => {
-    setBombCount(1); // Sætter bombCount til 1, når gridSize ændres
-  }, [gridSize]);
+  }, [gridSize, bombCount]);
 
   const startGame = () => {
     // Ensure placedBet is at least 10 and is a valid number
@@ -29,10 +24,9 @@ function MineBlast() {
       alert("Indsatsen skal være mindst 100 coins!");
       return;
     }
-  
+    
     setPlacedBet(numericBet); // Set the bet
     setBalance((prev) => Number((prev - numericBet).toFixed(0))); // Update balance after the bet, ensure no decimals
-  
     setGameStarted(true);
     setGameOver(false);
     setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
@@ -43,16 +37,14 @@ function MineBlast() {
   const handleBetChange = (e) => {
     const value = e.target.value;
   
-    // Allow numbers with up to 2 decimal places
-    if (/^\d+(\.\d{0,2})?$/.test(value)) {  // This regex allows digits with up to 2 decimal places
+    // Only allow numbers and prevent decimal points
+    if (/^\d*$/.test(value)) {  // This regex allows only digits (0-9)
       setBet(value);
     }
   };
   
   
-  
 
-  // Genererer tilfældige bombepositioner
   const generateBombs = (size, count) => {
     let bombPositions = new Set();
     while (bombPositions.size < count) {
@@ -62,7 +54,6 @@ function MineBlast() {
     return [...bombPositions];
   };
 
-  // Nulstiller spillet
   const resetGame = () => {
     setGameStarted(false);
     setGameOver(false);
@@ -72,7 +63,6 @@ function MineBlast() {
     setBombs(generateBombs(gridSize, bombCount));
   };
 
-  // Funktion til at stoppe spillet
   const stopGame = () => {
     setGameOver(true);
     revealGrid();
@@ -88,7 +78,6 @@ function MineBlast() {
       return;
     }
 
-    // Tjek om feltet allerede er afsløret
     if (grid[row][col] === "✅") return;
 
     setGrid(prevGrid =>
@@ -104,7 +93,6 @@ function MineBlast() {
     const remainingSafeFields = safeFields - (clickedFields - 1);
 
     if (remainingSafeFields <= 0) return; // Undgå division med 0
-
     const multiplier = totalFields / remainingSafeFields;
     setCurrentWinnings(prev => Number((prev + placedBet / safeFields * multiplier).toFixed(2))); // Forøg gevinsten korrekt
   };
@@ -120,79 +108,66 @@ function MineBlast() {
     );
   };
 
-  // Spilleren trækker sig og får sin gevinst
   const cashOut = () => {
     setBalance(balance + placedBet + currentWinnings);
     stopGame();
-    //resetGame();
   };
 
   return (
-    <div className="flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold">MineBlast 💣</h1>
-      <p className="text-lg font-semibold">Saldo: {balance} 💰</p>
+    <div className="mineblast-container">
+      <h1>MineBlast 💣</h1>
+      <p>Saldo: {balance} 💰</p>
 
       {!gameStarted ? (
         <>
           <p>Velkommen til MineBlast! Indsæt en indsats for at starte.</p>
 
-          {/* Indsats-input */}
-          <div className="bet-section">
-            <input
-              type="number"
-              placeholder="Indtast din indsats"
-              value={bet}
-              onChange={handleBetChange}
-              className="p-2 border border-gray-500 rounded"
-              disabled={placedBet !== null}
-            />
-          </div>
+          <input
+            type="number"
+            placeholder="Indtast din indsats"
+            value={bet}
+            onChange={handleBetChange}
+            className="bet-input"
+            disabled={placedBet !== null}
+          />
 
-          {/* Viser den bekræftede indsats */}
-          {placedBet !== null && <p className="mt-2">Din indsats: {placedBet} 💰</p>}
+          {placedBet !== null && <p>Din indsats: {placedBet} 💰</p>}
 
-          {/* Sværhedsgrad */}
-          <div className="mt-4">
+          <div>
             <label>Vælg grid-størrelse:</label>
-            <select value={gridSize} onChange={(e) => setGridSize(parseInt(e.target.value))}>
+            <select value={gridSize} onChange={(e) => {
+              const newSize = parseInt(e.target.value);
+              setBombCount(1);
+              setGridSize(newSize);
+            }}>
               <option value={3}>3x3</option>
               <option value={4}>4x4</option>
               <option value={5}>5x5</option>
             </select>
 
-            <label className="ml-4">Vælg antal bomber:</label>
+            <label>Vælg antal bomber:</label>
             <select value={bombCount} onChange={(e) => setBombCount(parseInt(e.target.value))}>
-              {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>
-                  {num + 1}
-                </option>
+              {[...Array(gridSize * gridSize - 1).keys()].map(num => (
+                <option key={num + 1} value={num + 1}>{num + 1}</option>
               ))}
             </select>
           </div>
 
-          <button onClick={startGame} className="mt-4 p-2 bg-blue-500 text-white rounded">
-            Start spil
-          </button>
+          <button onClick={startGame}>Start</button>
         </>
       ) : (
         <>
           <p>Spillet er startet! Klik på felterne for at afsløre dem.</p>
-          <p className="text-green-500">Potentiel gevinst: {currentWinnings} 💰</p>
+          <p>Potentiel gevinst: {currentWinnings} 💰</p>
 
-          {/* Spillepladen */}
           <div
-            className="grid mt-4"
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-              gap: "5px",
-            }}
+            className="grid"
+            style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
           >
             {grid.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
                 <button
                   key={`${rowIndex}-${colIndex}`}
-                  className="p-4 border border-gray-500 text-2xl"
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                   disabled={gameOver}
                 >
@@ -202,22 +177,8 @@ function MineBlast() {
             )}
           </div>
 
-          {!gameOver && (
-            <button
-              onClick={cashOut}
-              disabled={gameOver}
-              className="mt-4 p-2 bg-yellow-500 text-white rounded"
-            >
-              Træk dig og tag din gevinst
-            </button>
-          )}
-
-          {gameOver && <p className="text-red-500 mt-4">Spillet er slut! Tryk på knappen for at starte forfra.</p>}
-          {gameOver && (
-            <button onClick={resetGame} className="mt-4 p-2 bg-gray-500 text-white rounded">
-              Start nyt spil
-            </button>
-          )}
+          {!gameOver && <button onClick={cashOut}>Træk dig og tag din gevinst</button>}
+          {gameOver && <button onClick={resetGame}>Start nyt spil</button>}
         </>
       )}
     </div>
