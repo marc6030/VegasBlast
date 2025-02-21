@@ -3,8 +3,8 @@ import "../styles/MineBlast.css";
 
 function MineBlast() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(1000); // Startsaldo
-  const [bet, setBet] = useState(""); // Indsats
+  const [balance, setBalance] = useState(parseFloat(10000).toFixed(2));
+  const [bet, setBet] = useState("1000"); // Indsats
   const [placedBet, setPlacedBet] = useState(null); // Bekræftet indsats
   const [currentWinnings, setCurrentWinnings] = useState(0); // Gevinst
   const [gridSize, setGridSize] = useState(3); // Størrelse på spillepladen
@@ -23,31 +23,34 @@ function MineBlast() {
   }, [gridSize]);
 
   const startGame = () => {
-    if (placedBet === null || placedBet <= 0) {
-      alert("Du skal placere en gyldig indsats for at starte spillet!");
+    // Ensure placedBet is at least 10 and is a valid number
+    const numericBet = parseInt(bet); // Use parseInt to ensure it's an integer
+    if (numericBet < 100 || isNaN(numericBet)) {
+      alert("Indsatsen skal være mindst 100 coins!");
       return;
     }
-
-    setBalance(balance - placedBet); // Trækker indsatsen fra saldoen
+  
+    setPlacedBet(numericBet); // Set the bet
+    setBalance((prev) => Number((prev - numericBet).toFixed(0))); // Update balance after the bet, ensure no decimals
+  
     setGameStarted(true);
     setGameOver(false);
     setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
     setBombs(generateBombs(gridSize, bombCount));
   };
+  
 
   const handleBetChange = (e) => {
-    setBet(e.target.value);
-  };
-
-  const confirmBet = () => {
-    const numericBet = parseFloat(bet);
-    if (numericBet > 0 && numericBet <= balance) {
-      setPlacedBet(numericBet);
-      setCurrentWinnings(0); // Nulstil gevinst
-    } else {
-      alert("Indsæt en gyldig indsats, som du har råd til!");
+    const value = e.target.value;
+  
+    // Allow numbers with up to 2 decimal places
+    if (/^\d+(\.\d{0,2})?$/.test(value)) {  // This regex allows digits with up to 2 decimal places
+      setBet(value);
     }
   };
+  
+  
+  
 
   // Genererer tilfældige bombepositioner
   const generateBombs = (size, count) => {
@@ -75,7 +78,6 @@ function MineBlast() {
     revealGrid();
   };
 
-  // Håndter klik på et felt i grid
   const handleCellClick = (row, col) => {
     if (!gameStarted || gameOver) return;
 
@@ -95,20 +97,17 @@ function MineBlast() {
       )
     );
 
-    // Dynamisk beregning af multiplikatoren
-    const totalFields = gridSize * gridSize; // Antal felter på brættet
+    // Beregn chancen for at ramme en bombe
+    const totalFields = gridSize * gridSize;
     const safeFields = totalFields - bombCount; // Sikre felter
-    const clickedFields = grid.flat().filter(cell => cell === "✅").length; // Felter, der allerede er klikket korrekt
+    const clickedFields = grid.flat().filter(cell => cell === "✅").length + 1; // Inkluderer det nyligt klikkede felt
+    const remainingSafeFields = safeFields - (clickedFields - 1);
 
-    let multiplier = 10;
-    for (let i = 0; i < clickedFields; i++) {
-      multiplier *= (safeFields - i) / (totalFields - i);
-    }
-    multiplier = 1 / multiplier; // Invers for at få den rette multiplikator
+    if (remainingSafeFields <= 0) return; // Undgå division med 0
 
-    setCurrentWinnings(prev => Math.floor(prev + placedBet * multiplier));
+    const multiplier = totalFields / remainingSafeFields;
+    setCurrentWinnings(prev => Number((prev + placedBet / safeFields * multiplier).toFixed(2))); // Forøg gevinsten korrekt
   };
-
 
   // Afslører alle bomber
   const revealGrid = () => {
@@ -147,13 +146,6 @@ function MineBlast() {
               className="p-2 border border-gray-500 rounded"
               disabled={placedBet !== null}
             />
-            <button
-              onClick={confirmBet}
-              className="ml-2 p-2 bg-green-500 text-white rounded"
-              disabled={placedBet !== null}
-            >
-              Bekræft indsats
-            </button>
           </div>
 
           {/* Viser den bekræftede indsats */}
