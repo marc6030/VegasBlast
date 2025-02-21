@@ -3,8 +3,8 @@ import "../styles/MineBlast.css";
 
 function MineBlast() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(parseFloat(10000).toFixed(2));
-  const [bet, setBet] = useState("1000"); // Indsats
+  const [balance, setBalance] = useState(1000); // Startsaldo
+  const [bet, setBet] = useState(""); // Indsats
   const [placedBet, setPlacedBet] = useState(null); // Bekræftet indsats
   const [currentWinnings, setCurrentWinnings] = useState(0); // Gevinst
   const [gridSize, setGridSize] = useState(3); // Størrelse på spillepladen
@@ -18,12 +18,11 @@ function MineBlast() {
   }, [gridSize, bombCount]);
 
   const startGame = () => {
-    // Ensure placedBet is at least 10 and is a valid number
-    const numericBet = parseInt(bet); // Use parseInt to ensure it's an integer
-    if (numericBet < 100 || isNaN(numericBet)) {
-      alert("Indsatsen skal være mindst 100 coins!");
+    if (placedBet === null || placedBet <= 0) {
+      alert("Du skal placere en gyldig indsats for at starte spillet!");
       return;
     }
+    
     if ( numericBet >= balance ){
       alert("Saldo for lav")
       return;
@@ -36,7 +35,6 @@ function MineBlast() {
     setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
     setBombs(generateBombs(gridSize, bombCount));
   };
-  
 
   const handleBetChange = (e) => {
     const value = e.target.value;
@@ -46,7 +44,6 @@ function MineBlast() {
       setBet(value);
     }
   };
-  
   
 
   const generateBombs = (size, count) => {
@@ -72,6 +69,7 @@ function MineBlast() {
     revealGrid();
   };
 
+  // Håndter klik på et felt i grid
   const handleCellClick = (row, col) => {
     if (!gameStarted || gameOver) return;
 
@@ -90,16 +88,17 @@ function MineBlast() {
       )
     );
 
-    // Beregn chancen for at ramme en bombe
-    const totalFields = gridSize * gridSize;
+    // Dynamisk beregning af multiplikatoren
+    const totalFields = gridSize * gridSize; // Antal felter på brættet
     const safeFields = totalFields - bombCount; // Sikre felter
-    const clickedFields = grid.flat().filter(cell => cell === "✅").length + 1; // Inkluderer det nyligt klikkede felt
-    const remainingSafeFields = safeFields - (clickedFields - 1);
+    const clickedFields = grid.flat().filter(cell => cell === "✅").length; // Felter, der allerede er klikket korrekt
 
     if (remainingSafeFields <= 0) return; // Undgå division med 0
     const multiplier = totalFields / remainingSafeFields;
     setCurrentWinnings(prev => Number((prev + placedBet / safeFields * multiplier).toFixed(2))); // Forøg gevinsten korrekt
+
   };
+
 
   // Afslører alle bomber
   const revealGrid = () => {
