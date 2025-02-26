@@ -3,53 +3,68 @@ import "../styles/MineBlast.css";
 
 function MineBlast() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(parseFloat(10000).toFixed(2));
-  const [bet, setBet] = useState("1000"); // Indsats
-  const [placedBet, setPlacedBet] = useState(null); // Bekræftet indsats
-  const [currentWinnings, setCurrentWinnings] = useState(0); // Gevinst
-  const [gridSize, setGridSize] = useState(3); // Størrelse på spillepladen
-  const [bombCount, setBombCount] = useState(2); // Antal bomber
+  const [balance, setBalance] = useState(1000);
+  const [bet, setBet] = useState(100);
+  const [placedBet, setPlacedBet] = useState(null);
+  const [currentWinnings, setCurrentWinnings] = useState(0);
+  const [gridSize, setGridSize] = useState(3);
+  const [bombCount, setBombCount] = useState(1);
   const [grid, setGrid] = useState([]);
   const [bombs, setBombs] = useState([]);
   const [gameOver, setGameOver] = useState(false);
+  const [clickedCells, setClickedCells] = useState(new Set());
+  const [inGame, setInGame] = useState(false);
 
   useEffect(() => {
-    resetGame();
-  }, [gridSize, bombCount]);
+      if (!inGame) {
+          resetGame();
+      }
+  }, [gridSize, bombCount, inGame]);
 
-  const startGame = () => {
-    // Ensure placedBet is at least 10 and is a valid number
-    const numericBet = parseInt(bet); // Use parseInt to ensure it's an integer
-    if (numericBet < 100 || isNaN(numericBet)) {
-      alert("Indsatsen skal være mindst 100 coins!");
-      return;
+  useEffect(() => {
+      if (placedBet !== null && clickedCells.size > 0) {
+          console.log("Calling calculateWinnings() from useEffect...");
+          calculateWinnings();
+
+          // Find den seneste klikkede celle
+          const lastClick = [...clickedCells].pop();
+          if (lastClick !== undefined) {
+              const row = Math.floor(lastClick / gridSize);
+              const col = lastClick % gridSize;
+              updateGrid(row, col);
+          }
+      }
+  }, [placedBet, clickedCells]);
+
+
+  const handleGridSizeChange = (size) => {
+    if (!gameStarted) {
+      setGridSize(size);
+      setBombCount(1);
+      resetGame();
     }
-    if (numericBet > balance){
-      alert("saldo for lav");
-      return;
+  };
+
+  const initializeGame = () => {
+    const numericBet = parseInt(bet);
+    if (numericBet < 100 || isNaN(numericBet) || numericBet > balance) {
+      alert("Indsatsen skal være mindst 100 og ikke overstige saldoen!");
+      return false;
     }
-    
-    setPlacedBet(numericBet); // Set the bet
-    setBalance((prev) => Number((prev - numericBet).toFixed(0))); // Update balance after the bet, ensure no decimals
+
+    setPlacedBet(numericBet);
+    setBalance(balance - numericBet);
     setGameStarted(true);
+    setInGame(true);
     setGameOver(false);
-    setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
+    setGrid(createEmptyGrid(gridSize));
     setBombs(generateBombs(gridSize, bombCount));
+    setClickedCells(new Set());
+    return true;
   };
-  
-
-  const handleBetChange = (e) => {
-    const value = e.target.value;
-  
-    // Only allow numbers and prevent decimal points
-    if (/^\d*$/.test(value)) {  // This regex allows only digits (0-9)
-      setBet(value);
-    }
-  };
-  
-  
 
   const generateBombs = (size, count) => {
+    if (count >= size * size) count = size * size - 1;
     let bombPositions = new Set();
     while (bombPositions.size < count) {
       let position = Math.floor(Math.random() * size * size);
@@ -58,133 +73,155 @@ function MineBlast() {
     return [...bombPositions];
   };
 
-  const resetGame = () => {
-    setGameStarted(false);
-    setGameOver(false);
-    setPlacedBet(null);
-    setCurrentWinnings(0);
-    setGrid(Array(gridSize).fill(null).map(() => Array(gridSize).fill("❓")));
-    setBombs(generateBombs(gridSize, bombCount));
+  const createEmptyGrid = (size) => {
+    return Array(size).fill(null).map(() => Array(size).fill("❓"));
   };
 
-  const stopGame = () => {
-    setGameOver(true);
-    revealGrid();
+  const resetGame = () => {
+      if (inGame) return; // Undgå reset, hvis et spil er aktivt
+
+      setGameStarted(false);
+      setInGame(false);
+      setGameOver(false);
+      setPlacedBet(null);
+      setCurrentWinnings(0);
+      setGrid(createEmptyGrid(gridSize));
+      setBombs(generateBombs(gridSize, bombCount));
+      setClickedCells(new Set());
   };
+
 
   const handleCellClick = (row, col) => {
-    if (!gameStarted || gameOver) return;
+      if (!gameStarted) {
+          if (!initializeGame()) {
+              return;
+          }
+      }
 
-    const index = row * gridSize + col;
+      if (gameOver) {
+          return;
+      }
 
-    if (bombs.includes(index)) {
-      stopGame();
-      return;
-    }
+      if (clickedCells.has(row * gridSize + col)) {
+          return;
+      }
 
-    if (grid[row][col] === "✅") return;
+      const index = row * gridSize + col;
 
-    setGrid(prevGrid =>
-      prevGrid.map((r, rowIndex) =>
-        r.map((c, colIndex) => (rowIndex === row && colIndex === col ? "✅" : c))
-      )
-    );
+      if (bombs.includes(index)) {
+          revealGrid();
+          return;
+      }
 
-    // Beregn chancen for at ramme en bombe
-    const totalFields = gridSize * gridSize;
-    const safeFields = totalFields - bombCount; // Sikre felter
-    const clickedFields = grid.flat().filter(cell => cell === "✅").length + 1; // Inkluderer det nyligt klikkede felt
-    const remainingSafeFields = safeFields - (clickedFields - 1);
-
-    if (remainingSafeFields <= 0) return; // Undgå division med 0
-    const multiplier = totalFields / remainingSafeFields;
-    setCurrentWinnings(prev => Number((prev + placedBet / safeFields * multiplier).toFixed(2))); // Forøg gevinsten korrekt
+      setClickedCells(prev => new Set([...prev, index]));
   };
 
-  // Afslører alle bomber
+  const updateGrid = (row, col) => {
+      const multiplier = getMultiplier(gridSize, bombCount, clickedCells);
+
+      setGrid(prevGrid =>
+          prevGrid.map((r, rowIndex) =>
+              rowIndex === row
+                  ? r.map((c, colIndex) =>
+                      colIndex === col ? `x${multiplier}` : c
+                  )
+                  : r
+          )
+      );
+  };
+
+  const checkWin = () => {
+    const totalFields = gridSize * gridSize;
+    const safeFields = totalFields - bombCount;
+    if (clickedCells.size === safeFields) {
+      setGameOver(true);
+      alert("🎉 Du har vundet! Alle sikre felter er afsløret! 🎉");
+    }
+  };
+
+  const getMultiplier = (gridSize, bombCount, clickedCells) => {
+    const totalFields = gridSize * gridSize;
+    const safeFields = totalFields - bombCount;
+    const clickedFields = clickedCells.size;
+
+    if (clickedFields > safeFields) {
+        return 0; // Returnér 0, hvis der klikkes for mange felter
+    }
+
+    let multiplier = 1;
+
+    // Beregn den korrekte multiplikator baseret på akkumuleret sandsynlighed
+    for (let i = 0; i < clickedFields; i++) {
+        multiplier *= (totalFields - i) / (safeFields - i);
+    }
+
+    // Sikrer, at første klik giver en rimelig gevinst
+    if (clickedCells.size === 0) {
+        multiplier = totalFields / safeFields;
+    }
+
+    multiplier *= 0.97;
+    multiplier -= 1; // Træk 1 fra, da det kun skal være gevinststigning
+
+    return multiplier.toFixed(2); // Returnér multiplikatoren som en string med 2 decimaler
+};
+
+  const calculateWinnings = () => {
+      const multiplier = getMultiplier(gridSize, bombCount, clickedCells);
+      setCurrentWinnings(prev => Math.floor(prev + (placedBet * multiplier)));
+  };
+
   const revealGrid = () => {
-    setGrid(prevGrid =>
-      prevGrid.map((row, rowIndex) =>
-        row.map((cell, colIndex) =>
-          bombs.includes(rowIndex * gridSize + colIndex) ? "💣" : "✅"
-        )
-      )
-    );
+      setGrid(prevGrid =>
+          prevGrid.map((row, rowIndex) =>
+              row.map((cell, colIndex) =>
+                  bombs.includes(rowIndex * gridSize + colIndex) ? "💣" : (clickedCells.has(rowIndex * gridSize + colIndex) ? cell : "✅")
+              )
+          )
+      );
   };
 
   const cashOut = () => {
-    setBalance(balance + placedBet + currentWinnings);
-    stopGame();
+      setBalance(prevBalance => prevBalance + placedBet + currentWinnings);
+      revealGrid();  // Afslører kun det aktuelle spil
+      setGameOver(true);
+      //setInGame(false);  // Nu er spillet slut, men vi resetter ikke!
   };
+
 
   return (
     <div className="mineblast-container">
       <h1>MineBlast 💣</h1>
       <p>Saldo: {balance} 💰</p>
-
       {!gameStarted ? (
-        <>
-          <p>Velkommen til MineBlast! Indsæt en indsats for at starte.</p>
-
-          <input
-            type="number"
-            placeholder="Indtast din indsats"
-            value={bet}
-            onChange={handleBetChange}
-            className="bet-input"
-            disabled={placedBet !== null}
-          />
-
-          {placedBet !== null && <p>Din indsats: {placedBet} 💰</p>}
-
-          <div>
-            <label>Vælg grid-størrelse:</label>
-            <select value={gridSize} onChange={(e) => {
-              const newSize = parseInt(e.target.value);
-              setBombCount(1);
-              setGridSize(newSize);
-            }}>
-              <option value={3}>3x3</option>
-              <option value={4}>4x4</option>
-              <option value={5}>5x5</option>
-            </select>
-
-            <label>Vælg antal bomber:</label>
-            <select value={bombCount} onChange={(e) => setBombCount(parseInt(e.target.value))}>
-              {[...Array(gridSize * gridSize - 1).keys()].map(num => (
-                <option key={num + 1} value={num + 1}>{num + 1}</option>
-              ))}
-            </select>
-          </div>
-
-          <button onClick={startGame}>Start</button>
-        </>
+        <input
+          type="number"
+          value={bet}
+          onChange={(e) => setBet(e.target.value)}
+        />
       ) : (
-        <>
-          <p>Spillet er startet! Klik på felterne for at afsløre dem.</p>
-          <p>Potentiel gevinst: {currentWinnings} 💰</p>
-
-          <div
-            className="grid"
-            style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
-          >
-            {grid.map((row, rowIndex) =>
-              row.map((cell, colIndex) => (
-                <button
-                  key={`${rowIndex}-${colIndex}`}
-                  onClick={() => handleCellClick(rowIndex, colIndex)}
-                  disabled={gameOver}
-                >
-                  {cell}
-                </button>
-              ))
-            )}
-          </div>
-
-          {!gameOver && <button onClick={cashOut}>Træk dig og tag din gevinst</button>}
-          {gameOver && <button onClick={resetGame}>Start nyt spil</button>}
-        </>
+        <p>Indsat: {placedBet} 💰</p>
       )}
+      <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
+        {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
+      </select>
+      <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
+        {[...Array(gridSize * gridSize - 1).keys()].map(num => (
+          <option key={num + 1} value={num + 1}>{num + 1}</option>
+        ))}
+      </select>
+      <p>Potentiel gevinst: {currentWinnings} 💰</p>
+      <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
+        {grid.map((row, rowIndex) =>
+          row.map((cell, colIndex) => (
+            <button key={`${rowIndex}-${colIndex}`} onClick={() => handleCellClick(rowIndex, colIndex)} disabled={gameOver} className={cell === "💣" ? "bomb" : "safe"}>
+              {cell}
+            </button>
+          ))
+        )}
+      </div>
+      {!gameOver && <button onClick={cashOut}>Træk dig og tag din gevinst</button>}
+      {gameOver && <button onClick={() => { setInGame(false); resetGame(); }}>Start nyt spil</button>}
     </div>
   );
 }
