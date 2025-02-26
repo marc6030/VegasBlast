@@ -14,6 +14,7 @@ function MineBlast() {
   const [grid, setGrid] = useState([]);
   const [bombs, setBombs] = useState([]);
   const [currentWinnings, setCurrentWinnings] = useState(0);
+  const [x5Cell, setX5Cell] = useState(null);
 
   useEffect(() => {
     if (gameStarted && !gameOver) {
@@ -40,7 +41,7 @@ function MineBlast() {
       multiplier = totalFields / safeFields;
     }
 
-    multiplier *= 0.97; // Husets fordel
+    multiplier *= 0.92; // Husets fordel
     multiplier -= 1; // Fjern grundindsatsen
 
     return multiplier.toFixed(2);
@@ -85,6 +86,18 @@ function MineBlast() {
     // Generer spilleplade og bomber
     setGrid(createEmptyGrid(gridSize));
     setBombs(generateBombs(gridSize, bombCount));
+
+    // Find alle sikre felter (ikke bomber)
+    let safeCells = [];
+    for (let i = 0; i < gridSize * gridSize; i++) {
+      if (!bombs.includes(i)) {
+        safeCells.push(i);
+      }
+    }
+
+    // Vælg en tilfældig sikker celle til x5 multiplier
+    const randomX5Cell = safeCells[Math.floor(Math.random() * safeCells.length)];
+    setX5Cell(randomX5Cell);
   };
 
   const handleCellClick = (row, col) => {
@@ -104,16 +117,23 @@ function MineBlast() {
     setClickedCells(newClickedCells);
 
     // Beregn ny multiplier baseret på de opdaterede klik
-    const multiplier = getMultiplier(gridSize, bombCount, newClickedCells);
+    let multiplier = getMultiplier(gridSize, bombCount, newClickedCells);
+
+    // Hvis spilleren klikker på x5 cellen, gang multiplikatoren med 5
+    if (index === x5Cell) {
+      multiplier = 5;
+    }
 
     // Opdater spillepladen, så multiplikatoren vises i cellen
     setGrid(prevGrid =>
       prevGrid.map((r, rowIndex) =>
-        rowIndex === row
-          ? r.map((c, colIndex) =>
-              colIndex === col ? `x${multiplier}` : c
-            )
-          : r
+        r.map((c, colIndex) => {
+          const cellIndex = rowIndex * gridSize + colIndex;
+          if (cellIndex === index) {
+            return index === x5Cell ? `x${multiplier}🔥` : `x${multiplier}`;
+          }
+          return c;
+        })
       )
     );
 

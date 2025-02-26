@@ -7,6 +7,7 @@ function Navbar() {
       <h2>VegasBlast 🎰</h2>
       <ul className="nav-links">
         <li><Link to="/mineblast">MineBlast</Link></li>
+        <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
       </ul>
     </nav>
   );
