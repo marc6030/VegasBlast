@@ -4,9 +4,10 @@
   padding: 20px;
   max-width: 400px;
   margin: auto;
-  background-color: #f4f4f4;
+  margin-top: 10%;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  place-items: center;
 }
 
 h1 {
@@ -15,68 +16,106 @@ h1 {
 
 p {
   font-size: 18px;
-  margin: 10px 0;
+  padding: 0;
+  margin: 4px; /* Fjern den automatiske margen */
+}
+
+.setGame {
+  display: flex;
+  flex-direction: row;
+  gap: 40px; /* Juster afstanden mellem elementerne */
+  align-items: center; /* Centrerer elementerne vertikalt */
+  padding: 10px;
 }
 
 .grid {
+  width: 300px;
+  height: 300px;
   display: grid;
   gap: 5px;
-  margin: 20px auto;
-  padding: 10px;
-  background-color: #fff;
+  background: #fff;
   border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .grid button {
-  width: 60px;
-  height: 60px;
-  font-size: 20px;
+  width: 100%;
+  aspect-ratio: 1;
+  font-size: 12px;
   cursor: pointer;
   border: none;
-  transition: 0.2s;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .grid button.safe {
-  background-color: lightgreen;
+  background: lightgreen;
 }
 
 .grid button.bomb {
-  background-color: red;
+  background: red;
   color: white;
   font-weight: bold;
 }
 
-.grid button:hover {
-  opacity: 0.8;
-}
-
 button {
-  background-color: #007bff;
+  background: #007bff;
   color: white;
   padding: 10px 20px;
-  margin: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: 0.2s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
 input, select {
-  padding: 10px;
+  padding: 12px 15px;
   font-size: 16px;
-  margin: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px; /* Mere afrundede kanter */
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  outline: none;
 }
 
-select {
-  background-color: white;
-  cursor: pointer;
+input {
+  width: 100px;
+  text-align: center;
+}
+
+/* Når input eller select er i fokus */
+input:focus, select:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Hvis du vil have en glidende hover-effekt */
+input:hover, select:hover {
+  border-color: #888;
+}
+
+/* For Chrome, Safari, Edge og Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.inputStart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

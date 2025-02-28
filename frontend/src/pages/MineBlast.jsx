@@ -4,8 +4,8 @@ import "../styles/MineBlast.css";
 function MineBlast() {
   // Spillets tilstand
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(1000);
-  const [bet, setBet] = useState(100);
+  const [balance, setBalance] = useState(10000);
+  const [bet, setBet] = useState(1000);
   const [placedBet, setPlacedBet] = useState(null);
   const [gridSize, setGridSize] = useState(3);
   const [bombCount, setBombCount] = useState(1);
@@ -24,32 +24,21 @@ function MineBlast() {
   const getMultiplier = (gridSize, bombCount, clickedCells) => {
     const totalFields = gridSize * gridSize;
     const safeFields = totalFields - bombCount;
-    const clickedFields = clickedCells.size;
-
-    if (clickedFields === 0) return 0; // Hvis ingen felter er klikket, start på 0
+    const clickedFields = clickedCells.size - 1;
 
     if (clickedFields > safeFields) return 0; // Forhindrer fejl (kan mulgvis slettes)
 
     let multiplier = 1;
 
-    for (let i = 0; i < clickedFields; i++) {
-      multiplier *= (totalFields - i) / (safeFields - i);
+    if (safeFields - clickedFields > 0) {
+        multiplier = (totalFields - clickedFields) / (safeFields - clickedFields);
+        multiplier *= 0.99; // Husets fordel
+        multiplier -= 1; // Fjern grundindsatsen
+    } else {
+        multiplier = 2;
     }
 
-    if (clickedCells.size === 0) {
-      multiplier = totalFields / safeFields;
-    }
-
-    multiplier *= 0.97; // Husets fordel
-    multiplier -= 1; // Fjern grundindsatsen
-
-    return multiplier.toFixed(2);
-  };
-
-  const calculateWinnings = () => {
-    if (clickedCells.size === 0) return 0; // Starter gevinsten korrekt på 0
-    const multiplier = getMultiplier(gridSize, bombCount, clickedCells);
-    return Math.floor(placedBet * multiplier);
+    return Math.floor(multiplier * 100) / 100;
   };
 
   // Funktion til at generere bomber tilfældigt
@@ -83,8 +72,26 @@ function MineBlast() {
     setCurrentWinnings(0);
 
     // Generer spilleplade og bomber
+
+    const isTesting = false; // Sæt til true under testning
+
+    // Generer spilleplade og bomber
     setGrid(createEmptyGrid(gridSize));
-    setBombs(generateBombs(gridSize, bombCount));
+    let bombs = generateBombs(gridSize, bombCount);
+    setBombs(bombs);
+
+    if (isTesting) {
+      setGrid(prevGrid =>
+        prevGrid.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            const index = rowIndex * gridSize + colIndex;
+            return bombs.includes(index) ? "💣" : "✅"; // ✅ for sikre felter
+          })
+        )
+      );
+    }
+
+
   };
 
   const handleCellClick = (row, col) => {
@@ -160,7 +167,6 @@ function MineBlast() {
       // Hvis alle sikre felter er afsløret, giv spilleren deres gevinst og afslut spillet
       setBalance(prevBalance => prevBalance + currentWinnings + placedBet);
       revealGrid();
-      setGameOver(true);
     }
   };
 
@@ -169,31 +175,45 @@ function MineBlast() {
       <h1>MineBlast 💣</h1>
       <p>Saldo: {balance} 💰</p>
 
-      <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
-        {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
-      </select>
+      {!gameStarted && (
+      <div className="setGame">
+        { /* Grid size */}
+        <div>
+          <p>Grid</p>
+          <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
+            {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
+          </select>
+        </div>
 
-      <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
-        {[...Array(gridSize * gridSize - 1).keys()].map(num => (
-          <option key={num + 1} value={num + 1}>{num + 1}</option>
-        ))}
-      </select>
-
-      <p>Potentiel gevinst: {gameStarted ? currentWinnings : 0} 💰</p>
-
-      {!gameStarted ? (
-        <>
-          <input
-            type="number"
-            value={bet}
-            onChange={(e) => setBet(Number(e.target.value))}
-            placeholder="Indsats"
-          />
-          <button onClick={startGame}>Start spil</button>
-        </>
-      ) : (
-        <p>Indsat: {placedBet} 💰</p>
+        {/* Bomb count */}
+        <div>
+          <p>Bomb</p>
+          <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
+            {[...Array(gridSize * gridSize - 1).keys()].map(num => (
+              <option key={num + 1} value={num + 1}>{num + 1}</option>
+            ))}
+          </select>
+        </div>
+      </div>
       )}
+
+      <div className="inputStart">
+        {/* Indsats og start spil knap */}
+        {!gameStarted ? (
+          <>
+            <p>Indsats</p>
+            <input
+              type="number"
+              value={bet}
+              onChange={(e) => setBet(Number(e.target.value))}
+              placeholder="Indsats"
+            />
+            <button onClick={startGame}>Start spil</button>
+          </>
+        ) : (
+          <p>Gevinst: {currentWinnings + placedBet} 💰</p>
+        )}
+      </div>
 
       {gameOver && <p>Spillet er slut! Tryk på start for at prøve igen.</p>}
 
