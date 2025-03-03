@@ -1,3 +1,5 @@
+npm install
+
 cd frontend
 npm run build
 

@@ -8,6 +8,7 @@ function Navbar() {
       <ul className="nav-links">
         <li><Link to="/mineblast">MineBlast</Link></li>
         <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
+        <li><Link to="/LoginPage">Login</Link></li>
       </ul>
     </nav>
   );
