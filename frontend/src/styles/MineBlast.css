@@ -1,121 +1,56 @@
 .mineblast-container {
-  text-align: center;
-  font-family: Arial, sans-serif;
+  display: flex; /* Use flexbox to align children */
+  justify-content: space-between; /* Space the items apart */
+  align-items: flex-start; /* Align to the top */
+  width: 90vw; /* Set width to 90% of the viewport width */
+  height: 70vh; /* Set height to 70% of the viewport height */
   padding: 20px;
-  max-width: 400px;
   margin: auto;
-  margin-top: 10%;
-  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  place-items: center;
+  margin-top: 120px;
 }
 
-h1 {
-  color: #ff5722;
+.left-content {
+  flex: 1; /* Take up available space on the left */
+  max-width: 30%; /* Ensure it doesn't take up more than 30% of the width */
+  padding: 20px; /* Optional: Adjust padding */
 }
 
-p {
-  font-size: 18px;
+.grid-container {
+  flex: 1; /* Take up remaining space */
+  height: 100%; /* Take full height available */
   padding: 0;
-  margin: 4px; /* Fjern den automatiske margen */
+  display: flex; /* Flex to center the grid inside */
+  justify-content: center;
+  align-items: center;
 }
 
-.setGame {
-  display: flex;
-  flex-direction: row;
-  gap: 40px; /* Juster afstanden mellem elementerne */
-  align-items: center; /* Centrerer elementerne vertikalt */
-  padding: 10px;
+.grid-container::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* This forces the height of the container to match its width (aspect ratio 1:1) */
 }
 
 .grid {
-  width: 300px;
-  height: 300px;
   display: grid;
-  gap: 5px;
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.grid button {
   width: 100%;
-  aspect-ratio: 1;
-  font-size: 12px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.grid button.safe {
-  background: lightgreen;
-}
-
-.grid button.bomb {
-  background: red;
-  color: white;
-  font-weight: bold;
+  height: 100%;
+  max-width: 100%; /* Ensures the grid doesn't overflow its container */
+  max-height: 100%; /* Ensures the grid doesn't overflow vertically */
+  gap: 5px; /* Space between the grid cells */
 }
 
 button {
-  background: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  width: 100%; /* Make the buttons inside grid take full width */
+  height: 100%;
 }
 
-button:hover {
-  background: #0056b3;
+
+select, input {
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-input, select {
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 10px; /* Mere afrundede kanter */
-  background-color: #f9f9f9;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-  outline: none;
-}
-
-input {
-  width: 100px;
-  text-align: center;
-}
-
-/* Når input eller select er i fokus */
-input:focus, select:focus {
-  border-color: #007bff;
-  background-color: #fff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-}
-
-/* Hvis du vil have en glidende hover-effekt */
-input:hover, select:hover {
-  border-color: #888;
-}
-
-/* For Chrome, Safari, Edge og Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* For Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-.inputStart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+input[type="number"] {
+  padding: 8px;
 }

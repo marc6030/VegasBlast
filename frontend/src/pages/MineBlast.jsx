@@ -172,82 +172,86 @@ function MineBlast() {
 
   return (
     <div className="mineblast-container">
-      <h1>MineBlast 💣</h1>
-      <p>Saldo: {balance} 💰</p>
-
-      {!gameStarted && (
-      <div className="setGame">
-        { /* Grid size */}
-        <div>
-          <p>Grid</p>
-          <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
-            {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
-          </select>
-        </div>
-
-        {/* Bomb count */}
-        <div>
-          <p>Bomb</p>
-          <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
-            {[...Array(gridSize * gridSize - 1).keys()].map(num => (
-              <option key={num + 1} value={num + 1}>{num + 1}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-      )}
-
-      <div className="inputStart">
-        {/* Indsats og start spil knap */}
-        {!gameStarted ? (
-          <>
-            <p>Indsats</p>
-            <input
-              type="number"
-              value={bet}
-              onChange={(e) => setBet(Number(e.target.value))}
-              placeholder="Indsats"
-            />
-            <button onClick={startGame}>Start spil</button>
-          </>
-        ) : (
-          <p>Gevinst: {currentWinnings + placedBet} 💰</p>
+      <div className="left-content">
+        <h1>MineBlast 💣</h1>
+        <p>Saldo: {balance} 💰</p>
+  
+        {!gameStarted && (
+          <div className="setGame">
+            {/* Grid size */}
+            <div>
+              <p>Grid</p>
+              <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
+                {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
+              </select>
+            </div>
+  
+            {/* Bomb count */}
+            <div>
+              <p>Bomb</p>
+              <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
+                {[...Array(gridSize * gridSize - 1).keys()].map(num => (
+                  <option key={num + 1} value={num + 1}>{num + 1}</option>
+                ))}
+              </select>
+            </div>
+          </div>
         )}
-      </div>
-
-      {gameOver && <p>Spillet er slut! Tryk på start for at prøve igen.</p>}
-
-      {/* Vis spillepladen */}
-      {gameStarted && (
-        <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
-          {grid.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
-                disabled={gameOver}
-                className={cell === "💣" ? "bomb" : "safe"}
-              >
-                {cell}
-              </button>
-            ))
+  
+        <div className="inputStart">
+          {/* Indsats og start spil knap */}
+          {!gameStarted ? (
+            <>
+              <p>Indsats</p>
+              <input
+                type="number"
+                value={bet}
+                onChange={(e) => setBet(Number(e.target.value))}
+                placeholder="Indsats"
+              />
+              <button onClick={startGame}>Start spil</button>
+            </>
+          ) : (
+            <p>Gevinst: {currentWinnings + placedBet} 💰</p>
           )}
         </div>
-      )}
-
-      {gameOver && (
-        <button onClick={() => { setGameStarted(false); setGameOver(false); setPlacedBet(null); }}>
-          Start nyt spil
-        </button>
-      )}
-
-      {gameStarted && !gameOver && (
-        <button onClick={() => {
-          setBalance(prevBalance => prevBalance + currentWinnings + placedBet);
-          revealGrid();
-        }}>
-          Træk dig og tag din gevinst
-        </button>
+  
+        {gameOver && <p>Spillet er slut! Tryk på start for at prøve igen.</p>}
+  
+        {gameOver && (
+          <button onClick={() => { setGameStarted(false); setGameOver(false); setPlacedBet(null); }}>
+            Start nyt spil
+          </button>
+        )}
+  
+        {gameStarted && !gameOver && (
+          <button onClick={() => {
+            setBalance(prevBalance => prevBalance + currentWinnings + placedBet);
+            revealGrid();
+          }}>
+            Træk dig og tag din gevinst
+          </button>
+        )}
+      </div>
+  
+      {/* Grid */}
+      {gameStarted && (
+        <div className="grid-container">
+          <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
+            {grid.map((row, rowIndex) =>
+              row.map((cell, colIndex) => (
+                <button
+                  key={`${rowIndex}-${colIndex}`}
+                  onClick={() => handleCellClick(rowIndex, colIndex)}
+                  disabled={gameOver}
+                  className={cell === "💣" ? "bomb" : "safe"}
+                >
+                  {cell}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
