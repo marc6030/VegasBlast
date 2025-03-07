@@ -1,18 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext"; // 📌 Importér AuthContext
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [user, setUser] = useState(null); // Tjek om brugeren er logget ind
-
-    // 📌 Tjek om brugeren er logget ind, når komponenten indlæses
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const { user, login, logout } = useContext(AuthContext); // 📌 Brug global login-state
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,8 +20,7 @@ const LoginPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem("user", JSON.stringify(data.user)); // Gem bruger i localStorage
-                setUser(data.user); // Opdater state
+                login(data.user); // 📌 Opdater global login-state
             } else {
                 setErrorMessage(data.error || "❌ Forkert brugernavn eller kodeord!");
             }
@@ -38,18 +30,13 @@ const LoginPage = () => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("user"); // Fjern brugerdata fra localStorage
-        setUser(null); // Nulstil state
-    };
-
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             {user ? (
                 // 📌 Hvis brugeren er logget ind, vis velkomstbesked og logud-knap
                 <div>
                     <h2>Velkommen, {user.username}!</h2>
-                    <button onClick={handleLogout}>Log ud</button>
+                    <button onClick={logout}>Log ud</button>
                 </div>
             ) : (
                 // 📌 Hvis brugeren ikke er logget ind, vis login-formularen
