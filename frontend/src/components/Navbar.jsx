@@ -42,6 +42,7 @@ function Navbar() {
           // 📌 Hvis brugeren er logget ind, vis brugernavn + log ud-knap
           <>
             <li>👤 {user.username}</li>
+            <li>👤 {user.saldo}</li>
             <li><button onClick={handleLogout} className="logout-btn">Log ud</button></li>
           </>
         ) : (
