@@ -1,5 +1,4 @@
 const { getConnection } = require("./db"); // Importér databaseforbindelsen
-const bcrypt = require("bcrypt"); // Til password-sammenligning
 
 // ** Funktion til at verificere login **
 const loginUser = async (username, password) => {
@@ -19,9 +18,8 @@ const loginUser = async (username, password) => {
 
         const user = rows[0];
 
-        // 🔑 Valider hashed kodeord
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
+        // 🔑 Sammenlign password direkte (ikke sikker løsning!)
+        if (password !== user.password) {
             console.log("❌ Forkert kodeord.");
             return { success: false, error: "Forkert brugernavn eller kodeord!" };
         }
