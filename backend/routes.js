@@ -1,5 +1,5 @@
 const express = require("express");
-const { loginUser } = require("./loginUser"); // Importér login-funktion
+const { loginUser } = require("./login"); // Importér login-funktion
 const { changeSaldo } = require("./changeSaldo"); // Importér saldo-funktion
 
 const router = express.Router(); // Opret en router
