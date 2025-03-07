@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import MineBlast from "./pages/MineBlast";
 import MineBlastLightning from "./pages/MineBlastLightning";
-import Login from "./pages/loginPage";
+import Login from "./pages/LoginPage";
 
 function AppRouter() {
   return (
