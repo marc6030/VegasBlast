@@ -5,18 +5,30 @@ import "../styles/Navbar.css";
 function Navbar() {
   const [user, setUser] = useState(null);
 
-  // 📌 Tjek om brugeren er logget ind, når Navbar loades
-  useEffect(() => {
+  // 📌 Funktion til at hente bruger fra localStorage
+  const fetchUser = () => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser)); // Gem brugerinfo i state
-    }
+    setUser(storedUser ? JSON.parse(storedUser) : null);
+  };
+
+  // 📌 Tjek om brugeren er logget ind ved component mount
+  useEffect(() => {
+    fetchUser();
+
+    // 📌 Lyt efter ændringer i localStorage for at opdatere navbar dynamisk
+    const handleStorageChange = () => fetchUser();
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
+  // 📌 Log ud funktion
   const handleLogout = () => {
-    localStorage.removeItem("user"); // Fjern brugerdata
-    setUser(null); // Nulstil state
-    window.location.reload(); // Genindlæs siden for at opdatere navbar
+    localStorage.removeItem("user");
+    setUser(null); // Opdater state
+    window.dispatchEvent(new Event("storage")); // Fortæl alle komponenter, at localStorage er ændret
   };
 
   return (
@@ -27,13 +39,13 @@ function Navbar() {
         <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
 
         {user ? (
-          // 📌 Hvis brugeren er logget ind, vis brugernavn og log ud-knap
+          // 📌 Hvis brugeren er logget ind, vis brugernavn + log ud-knap
           <>
             <li>👤 {user.username}</li>
             <li><button onClick={handleLogout} className="logout-btn">Log ud</button></li>
           </>
         ) : (
-          // 📌 Hvis brugeren IKKE er logget ind, vis login-link
+          // 📌 Hvis brugeren ikke er logget ind, vis login-link
           <li><Link to="/login">Login</Link></li>
         )}
       </ul>
