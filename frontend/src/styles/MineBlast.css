@@ -1,56 +1,168 @@
 .mineblast-container {
-  display: flex; /* Use flexbox to align children */
-  justify-content: space-between; /* Space the items apart */
-  align-items: flex-start; /* Align to the top */
-  width: 90vw; /* Set width to 90% of the viewport width */
-  height: 70vh; /* Set height to 70% of the viewport height */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90vw;
+  height: 70vh;
   padding: 20px;
   margin: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   margin-top: 120px;
+  border-radius: 12px;
+  background-color: #006eff96;
 }
 
 .left-content {
-  flex: 1; /* Take up available space on the left */
-  max-width: 30%; /* Ensure it doesn't take up more than 30% of the width */
-  padding: 20px; /* Optional: Adjust padding */
+  flex: 1;
+  height: 100%;
+  width: 30%;
+  max-width: 30%;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .grid-container {
-  flex: 1; /* Take up remaining space */
-  height: 100%; /* Take full height available */
-  padding: 0;
-  display: flex; /* Flex to center the grid inside */
+  flex: 1;
+  height: 100%;
+  padding: 8px;
+  display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .grid-container::before {
   content: "";
   display: block;
-  padding-top: 100%; /* This forces the height of the container to match its width (aspect ratio 1:1) */
+  padding-top: 100%;
 }
 
 .grid {
   display: grid;
+  height: calc(100% - 8px);
+  max-width: 100%;
+  max-height: 100%;
+  padding: 8px;
+  gap: 8px;
+  aspect-ratio: 1;
+  background-color: #e0e0e0;
+  border-radius: 12px;
+}
+
+.grid button {
   width: 100%;
   height: 100%;
-  max-width: 100%; /* Ensures the grid doesn't overflow its container */
-  max-height: 100%; /* Ensures the grid doesn't overflow vertically */
-  gap: 5px; /* Space between the grid cells */
+  background-color: #7f00f7;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-button {
-  width: 100%; /* Make the buttons inside grid take full width */
-  height: 100%;
+.grid button:hover {
+  background-color: #9320ff;
+  cursor: pointer;
+  transform: scale(1.03);
 }
 
+.grid button:active {
+  background-color: #da4100;
+  transform: scale(0.97);
+}
 
-select, input {
+.grid button.bomb {
+  background-color: #ff0000; /* Red color for bombs */
+}
+
+.grid button.safe {
+  background-color: #00cd0e; /* Green color for safe cells */
+}
+
+select,
+input {
+  max-width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0.5, 0.5);
   margin-bottom: 10px;
-  width: 100%;
+  font-size: 14px;
 }
 
 input[type="number"] {
-  padding: 8px;
+  width: 80%;
+}
+
+input[type="number"],
+select {
+  background-color: #fafafa;
+  color: #333;
+}
+
+input[type="number"]:focus,
+select:focus {
+  border-color: #8e8e8e;
+  outline: none;
+}
+
+button {
+  padding: 12px 24px;
+  background-color: #00796b; /* Soft teal color */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+button:hover {
+  background-color: #004d40;
+}
+
+button:active {
+  background-color: #004d2d;
+  transform: scale(0.98);
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ff0000;
+  margin-bottom: auto;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+}
+
+.setGame {
+  margin-bottom: auto;
+}
+
+.inputStart {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-size: 18px;
+}
+
+/* Styling for game over or win */
+.game-over {
+  color: #d32f2f; /* Red color for "game over" text */
+  font-weight: bold;
+}
+
+.game-won {
+  color: #388e3c; /* Green color for "win" text */
+  font-weight: bold;
 }
