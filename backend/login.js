@@ -8,7 +8,7 @@ const loginUser = async (username, password) => {
         console.log("✅ Forbundet til MariaDB");
 
         // 🔍 Hent brugeren fra databasen
-        const query = `SELECT id, username, password FROM users WHERE username = ?`;
+        const query = `SELECT id, username, password FROM user WHERE username = ?`;
         const [rows] = await connection.execute(query, [username]);
 
         if (rows.length === 0) {
