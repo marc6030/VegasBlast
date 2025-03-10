@@ -1,8 +1,26 @@
 const express = require("express");
 const { loginUser } = require("./login"); // Importér login-funktion
+const { signupUser } = require("./signup"); // 📌 Importér signup-funktion
 const { changeSaldo } = require("./changeSaldo"); // Importér saldo-funktion
 
 const router = express.Router(); // Opret en router
+
+// 📌 Signup-route
+router.post("/signup", async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: "Brugernavn og kodeord kræves!" });
+    }
+
+    const result = await signupUser(username, password);
+
+    if (result.success) {
+        res.json({ message: "Bruger oprettet succesfuldt!" });
+    } else {
+        res.status(400).json({ error: result.error });
+    }
+});
 
 // 📌 Login-route
 router.post("/login", async (req, res) => {
