@@ -11,7 +11,7 @@ const SaldoPage = () => {
 
     const handleAddSaldo = async () => {
         try {
-            const currentSaldo = user.saldo; // 📌 Hent den nyeste saldo
+            const currentSaldo = Math.round(user.saldo); // 📌 Hent den nyeste saldo
             const newSaldo = Math.round(currentSaldo + 100); // 🔥 Fix floating point fejl
 
             const response = await fetch("http://130.225.170.52:10171/api/change-saldo", {
