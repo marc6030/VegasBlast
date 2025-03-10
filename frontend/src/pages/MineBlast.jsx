@@ -15,6 +15,25 @@ function MineBlast() {
   const [bombs, setBombs] = useState([]);
   const [currentWinnings, setCurrentWinnings] = useState(0);
 
+  const updateSaldoInDB = async (userId, newSaldo) => {
+    try {
+      const response = await fetch("/api/changeSaldo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, newSaldo }),
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        console.error("❌ Fejl ved opdatering af saldo:", data.error);
+      }
+    } catch (error) {
+      console.error("🚨 Serverfejl ved saldo-opdatering:", error);
+    }
+  };
+
   useEffect(() => {
     if (gameStarted && !gameOver) {
       checkWin();
@@ -75,8 +94,11 @@ function MineBlast() {
       return;
     }
 
+    const newBalance = balance - numericBet;
+    setBalance(newBalance);
+    updateSaldoInDB(userId, newBalance); // 📌 Opdater saldo i databasen
+
     setPlacedBet(numericBet);
-    setBalance(balance - numericBet);
     setGameStarted(true);
     setGameOver(false);
     setClickedCells(new Set());
@@ -157,11 +179,21 @@ function MineBlast() {
     const safeFields = totalFields - bombCount;
 
     if (clickedCells.size === safeFields) {
-      // Hvis alle sikre felter er afsløret, giv spilleren deres gevinst og afslut spillet
-      setBalance(prevBalance => prevBalance + currentWinnings + placedBet);
+      const newBalance = balance + currentWinnings + placedBet;
+      setBalance(newBalance);
+      updateSaldoInDB(userId, newBalance); // 📌 Opdater saldo i databasen
+
       revealGrid();
       setGameOver(true);
     }
+  };
+
+  const cashOut = () => {
+    const newBalance = balance + currentWinnings + placedBet;
+    setBalance(newBalance);
+    updateSaldoInDB(userId, newBalance); // 📌 Opdater saldo i databasen
+
+    revealGrid();
   };
 
   return (
@@ -222,10 +254,7 @@ function MineBlast() {
       )}
 
       {gameStarted && !gameOver && (
-        <button onClick={() => {
-          setBalance(prevBalance => prevBalance + currentWinnings + placedBet);
-          revealGrid();
-        }}>
+        <button onClick={cashOut}>
           Træk dig og tag din gevinst
         </button>
       )}
