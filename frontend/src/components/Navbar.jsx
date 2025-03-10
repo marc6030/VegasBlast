@@ -12,6 +12,7 @@ function Navbar() {
             <ul className="nav-links">
                 <li><Link to="/mineblast">MineBlast</Link></li>
                 <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
+                <li><Link to="/change-saldo">ChangeSaldo</Link></li>
 
                 {user ? (
                     // 📌 Hvis brugeren er logget ind, vis brugernavn, saldo + log ud-knap
@@ -25,7 +26,6 @@ function Navbar() {
                   <>
                     <li><Link to="/login">Login</Link></li>
                     <li><Link to="/signup">Signup</Link></li>
-                    <li><Link to="/change-saldo">ChangeSaldo</Link></li>
                   </>
                 )}
             </ul>
