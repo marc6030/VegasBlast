@@ -2,21 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 90vw;
-  height: 70vh;
+  width: 100vw;
+  height: 90vh;
   padding: 20px;
   margin: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  margin-top: 120px;
-  border-radius: 12px;
-  background-color: #006eff96;
+  margin-top: 10vh;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
 }
 
 .left-content {
   flex: 1;
   height: 100%;
-  width: 30%;
-  max-width: 30%;
+  width: 40%;
+  max-width: 40%;
   box-sizing: border-box;
   padding: 20px;
   overflow-y: auto;
@@ -25,13 +24,10 @@
 .grid-container {
   flex: 1;
   height: 100%;
-  padding: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .grid-container::before {
@@ -42,77 +38,69 @@
 
 .grid {
   display: grid;
-  height: calc(100% - 8px);
+  height: calc(90% - 8px);
   max-width: 100%;
-  max-height: 100%;
+  max-height: 90%;
   padding: 8px;
   gap: 8px;
   aspect-ratio: 1;
-  background-color: #e0e0e0;
   border-radius: 12px;
+  align-items: center;
+  justify-content: right;
 }
 
 .grid button {
+  max-width: 100%;
+  max-height: 100%;
   width: 100%;
-  height: 100%;
-  background-color: #7f00f7;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  border: 0;
+  border-radius: 8px; /* Outer border radius */
+  border-color: #a328d0;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  font-size: min(4vw, 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Ensure we can position the pseudo-element */
+}
+
+
+.grid button.safe {
+  background: radial-gradient(circle, #00ff1e, #00cd0e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .grid button:hover {
-  background-color: #9320ff;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   cursor: pointer;
   transform: scale(1.03);
 }
 
 .grid button:active {
-  background-color: #da4100;
+  background: radial-gradient(circle, #ff4d4d, #ff0000);
   transform: scale(0.97);
 }
 
 .grid button.bomb {
-  background-color: #ff0000; /* Red color for bombs */
+  background: radial-gradient(circle, #ff4d4d, #ff0000);
 }
 
 .grid button.safe {
-  background-color: #00cd0e; /* Green color for safe cells */
-}
-
-select,
-input {
-  max-width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0.5, 0.5);
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-input[type="number"] {
-  width: 80%;
-}
-
-input[type="number"],
-select {
-  background-color: #fafafa;
-  color: #333;
-}
-
-input[type="number"]:focus,
-select:focus {
-  border-color: #8e8e8e;
-  outline: none;
+  background: radial-gradient(circle, #00ff1e, #00cd0e);
 }
 
 button {
   padding: 12px 24px;
-  background-color: #00796b; /* Soft teal color */
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   color: white;
   border: none;
   border-radius: 8px;
@@ -123,18 +111,20 @@ button {
 }
 
 button:hover {
-  background-color: #004d40;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
 }
 
 button:active {
-  background-color: #004d2d;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   transform: scale(0.98);
 }
 
 h1 {
   font-size: 32px;
   font-weight: 600;
-  color: #ff0000;
+  background: radial-gradient(circle, #ff0000, #ff7300);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: auto;
 }
 
@@ -156,13 +146,12 @@ button {
   font-size: 18px;
 }
 
-/* Styling for game over or win */
 .game-over {
-  color: #d32f2f; /* Red color for "game over" text */
+  color: #d32f2f;
   font-weight: bold;
 }
 
 .game-won {
-  color: #388e3c; /* Green color for "win" text */
+  color: #388e3c;
   font-weight: bold;
 }

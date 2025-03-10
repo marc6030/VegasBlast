@@ -7,8 +7,8 @@ function MineBlast() {
   const [balance, setBalance] = useState(10000);
   const [bet, setBet] = useState(1000);
   const [placedBet, setPlacedBet] = useState(null);
-  const [gridSize, setGridSize] = useState(3);
-  const [bombCount, setBombCount] = useState(1);
+  const [gridSize, setGridSize] = useState(5);
+  const [bombCount, setBombCount] = useState(3);
   const [gameOver, setGameOver] = useState(false);
   const [clickedCells, setClickedCells] = useState(new Set());
   const [grid, setGrid] = useState([]);

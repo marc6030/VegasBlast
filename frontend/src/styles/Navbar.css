@@ -3,8 +3,11 @@
   position: fixed;
   top: 0;
   left: 0;
+  height: 10vh; /* Adjust based on preference */
+  min-height: 60px; /* Ensures it's not too small */
+  max-height: 80px; /* Prevents it from getting too big */  
   width: 100%;
-  background-color: #8400ff;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   color: white;
   padding: 15px 20px; /* Standard padding */
   display: flex;
