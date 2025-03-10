@@ -5,28 +5,23 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    // 📌 Tjek om brugeren er logget ind ved app-start
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
-
-    // 📌 Login-funktion
     const login = (userData) => {
-        localStorage.setItem("user", JSON.stringify(userData)); // 🔥 Gem i localStorage
-        setUser(userData); // 🔥 Opdater global state
+        setUser(userData);
     };
 
-    // 📌 Logout-funktion
     const logout = () => {
-        localStorage.removeItem("user"); // 🔥 Fjern fra localStorage
-        setUser(null); // 🔥 Nulstil state
+        setUser(null);
+    };
+
+    // 📌 Funktion til at opdatere saldo globalt
+    const updateSaldo = (newSaldo) => {
+        if (user) {
+            setUser((prevUser) => ({ ...prevUser, saldo: newSaldo }));
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, updateSaldo }}>
             {children}
         </AuthContext.Provider>
     );
