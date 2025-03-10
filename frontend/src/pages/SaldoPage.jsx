@@ -13,19 +13,20 @@ const SaldoPage = () => {
         }
 
         try {
+            const newSaldo = Math.round((saldo + 100) * 100) / 100; // 🔥 Fix floating point fejl
             const response = await fetch("http://130.225.170.52:10171/api/change-saldo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    userId: user.id, // 📌 Send brugerens ID
-                    newSaldo: saldo + 100, // 📌 Tilføj 100 kr.
+                    userId: user.id,
+                    newSaldo: newSaldo,
                 }),
             });
 
             const data = await response.json();
             if (response.ok) {
-                setSaldo(saldo + 100);
-                setMessage(`✅ Saldo opdateret! Ny saldo: ${saldo + 100} kr.`);
+                setSaldo(newSaldo);
+                setMessage(`✅ Saldo opdateret! Ny saldo: ${newSaldo} kr.`);
             } else {
                 setMessage(data.error || "❌ Fejl ved saldo-opdatering!");
             }
@@ -36,7 +37,7 @@ const SaldoPage = () => {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <div style={{ textAlign: "center", marginTop: "150px" }}>
             <h2>Tilføj penge til saldo</h2>
             <p>Din nuværende saldo: {saldo} kr.</p>
             <button onClick={handleAddSaldo}>Tilføj 100 kr.</button>
