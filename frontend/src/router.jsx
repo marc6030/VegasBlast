@@ -12,7 +12,7 @@ function AppRouter() {
       <Route path="/mineblastlightning" element={<MineBlastLightning />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/saldo" element={<SaldoPage />} />
+      <Route path="/change-saldo" element={<SaldoPage />} />
     </Routes>
   );
 }
