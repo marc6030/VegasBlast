@@ -1,20 +1,28 @@
-const { getConnection } = require('./db'); // Importér databaseforbindelsen
+const { getConnection } = require("./db");
 
-// ** Funktion til at ændre saldo **
 const changeSaldo = async (userId, newSaldo) => {
-    const connection = await getConnection(); // Opret forbindelse
+    const connection = await getConnection();
 
     try {
-        console.log('✅ Forbundet til MariaDB');
+        console.log(`🔄 Opdaterer saldo for bruger ${userId}...`);
 
-        const query = `UPDATE users SET saldo = ? WHERE id = ?`;
-        const [result] = await connection.execute(query, [newSaldo, userId]);
+        const updateQuery = `UPDATE users SET saldo = ? WHERE id = ?`;
+        const [result] = await connection.execute(updateQuery, [newSaldo, userId]);
 
-        console.log(`💰 Saldo opdateret for bruger ID ${userId}. Rækker ændret: ${result.affectedRows}`);
+        if (result.affectedRows > 0) {
+            console.log(`✅ Saldo opdateret til ${newSaldo} kr.`);
+            return { success: true };
+        } else {
+            console.log("❌ Ingen rækker opdateret (bruger findes ikke?).");
+            return { success: false, error: "Bruger ikke fundet!" };
+        }
     } catch (error) {
-        console.error('🚨 Fejl ved opdatering af saldo:', error);
+        console.error("🚨 Fejl ved saldo-opdatering:", error);
+        return { success: false, error: "Serverfejl, prøv igen senere!" };
     } finally {
-        await connection.end(); // Luk forbindelsen
-        console.log('🔌 Forbindelse lukket.');
+        await connection.end();
+        console.log("🔌 Forbindelse lukket.");
     }
 };
+
+module.exports = { changeSaldo };

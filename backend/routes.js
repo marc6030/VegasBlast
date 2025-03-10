@@ -42,18 +42,12 @@ router.post("/login", async (req, res) => {
 // 📌 Route til at ændre saldo
 router.post("/change-saldo", async (req, res) => {
     const { userId, newSaldo } = req.body;
-
     if (!userId || newSaldo === undefined) {
         return res.status(400).json({ error: "Mangler userId eller newSaldo" });
     }
 
-    try {
-        await changeSaldo(userId, newSaldo);
-        res.json({ success: true, message: `Saldo opdateret til ${newSaldo}` });
-    } catch (error) {
-        console.error("Fejl ved saldo-opdatering:", error);
-        res.status(500).json({ error: "Serverfejl ved opdatering af saldo" });
-    }
+    const result = await changeSaldo(userId, newSaldo);
+    result.success ? res.json({ success: true, message: `Saldo opdateret til ${newSaldo}` }) : res.status(400).json({ error: result.error });
 });
 
 module.exports = router;
