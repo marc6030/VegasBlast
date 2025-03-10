@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
@@ -13,6 +13,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    // 📌 Funktion til at runde saldo
+    const roundSaldo = () => {
+        if (user && typeof user.saldo === "number") {
+            setUser((prevUser) => ({ ...prevUser, saldo: Math.round(prevUser.saldo) }));
+        }
+    };
+
     // 📌 Funktion til at opdatere saldo globalt
     const updateSaldo = (newSaldo) => {
         if (user) {
@@ -21,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, updateSaldo }}>
+        <AuthContext.Provider value={{ user, login, logout, updateSaldo, roundSaldo }}>
             {children}
         </AuthContext.Provider>
     );
