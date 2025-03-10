@@ -21,8 +21,11 @@ function Navbar() {
                         <li><button onClick={logout} className="logout-btn">Log ud</button></li>
                     </>
                 ) : (
-                    // 📌 Hvis brugeren ikke er logget ind, vis login-link
+                  // 📌 Hvis brugeren ikke er logget ind, vis login-link
+                  <>
                     <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/signup">Signup</Link></li>
+                  </>
                 )}
             </ul>
         </nav>
