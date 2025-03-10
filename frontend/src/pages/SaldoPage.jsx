@@ -11,7 +11,7 @@ const SaldoPage = () => {
 
     const handleAddSaldo = async () => {
         try {
-            const newSaldo = Math.round((user.saldo + 100) * 100) / 100; // 🔥 Fix floating point fejl
+            const newSaldo = Math.round(user.saldo + 100); // 🔥 Fix floating point fejl
 
             const response = await fetch("http://130.225.170.52:10171/api/change-saldo", {
                 method: "POST",
