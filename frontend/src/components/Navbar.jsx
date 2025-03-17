@@ -4,12 +4,11 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
 
 function Navbar() {
-<<<<<<< HEAD
     const { user, logout } = useContext(AuthContext); // 📌 Henter login-status fra global state
 
     return (
         <nav className="navbar">
-            <h2>VegasBlast 🎰</h2>
+            <h1>VegasBlast 🎰</h1>
             <ul className="nav-links">
                 <li><Link to="/mineblast">MineBlast</Link></li>
                 <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
@@ -31,17 +30,6 @@ function Navbar() {
             </ul>
         </nav>
     );
-=======
-  return (
-    <nav className="navbar">
-      <h1>VegasBlast 🎰</h1>
-      <ul className="nav-links">
-        <li><Link to="/mineblast">MineBlast</Link></li>
-        <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
-      </ul>
-    </nav>
-  );
->>>>>>> origin/webdesign
 }
 
 export default Navbar;
