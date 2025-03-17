@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "../styles/MineBlast.css";
 
-function MineBlast() {
+function MineBlast({ userId }) {
+  const [balance, setBalance] = useState(0); // Start med 0, hentes fra backend
+
+  useEffect(() => {
+    // Hent saldo når komponenten loader
+    fetch("/api/get-saldo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.saldo !== undefined) setBalance(data.saldo);
+      })
+      .catch(err => console.error("Fejl ved hentning af saldo:", err));
+  }, [userId]);
+
   // Spillets tilstand
   const [gameStarted, setGameStarted] = useState(false);
-  const [balance, setBalance] = useState(1000);
   const [bet, setBet] = useState(100);
   const [placedBet, setPlacedBet] = useState(null);
   const [gridSize, setGridSize] = useState(3);
@@ -133,6 +148,11 @@ function MineBlast() {
       )
     );
     setGameOver(true); // Stop spillet
+    fetch("/api/change-saldo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, newSaldo: balance }),
+    });
   };
 
   const resetGame = () => {
