@@ -98,41 +98,6 @@
   background: radial-gradient(circle, #00ff1e, #00cd0e);
 }
 
-button {
-  padding: 12px 24px;
-  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-button:hover {
-  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
-}
-
-button:active {
-  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
-  transform: scale(0.98);
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: 600;
-  background: radial-gradient(circle, #ff0000, #ff7300);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: auto;
-}
-
-p {
-  color: #555;
-  font-size: 16px;
-}
-
 .setGame {
   margin-bottom: auto;
 }
@@ -140,10 +105,6 @@ p {
 .inputStart {
   display: flex;
   flex-direction: column;
-}
-
-button {
-  font-size: 18px;
 }
 
 .game-over {

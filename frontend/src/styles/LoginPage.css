@@ -1,0 +1,77 @@
+/* Baggrund og centrering */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Boks til formularen */
+.form-box, .welcome-box {
+    background: #ffffff1a;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Inputfelter */
+.login-form input {
+    width: 100%;
+    background: #ffffff26;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 0px solid #d1d1d1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+    -webkit-text-fill-color: #fff;
+}
+
+
+/* Knapper */
+.apple-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.apple-button:hover {
+    background-color: #005fcc;
+}
+
+/* Fejlbesked */
+.error-message {
+    color: #ff3b30;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(255, 255, 255, 1); }
+    100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+}
+
+.form-box h2,
+.welcome-box h2 {
+    font-size: 28px;
+    color: #fff;
+    animation: glow 2s infinite ease-in-out;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
