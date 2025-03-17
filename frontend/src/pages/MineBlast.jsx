@@ -52,11 +52,11 @@ function MineBlast() {
     let multiplier = 1;
 
     if (safeFields - clickedFields > 0) {
-        multiplier = (totalFields - clickedFields) / (safeFields - clickedFields);
-        multiplier *= 0.99; // Husets fordel
-        multiplier -= 1; // Fjern grundindsatsen
+      multiplier = (totalFields - clickedFields) / (safeFields - clickedFields);
+      multiplier *= 0.99; // Husets fordel
+      multiplier -= 1; // Fjern grundindsatsen
     } else {
-        multiplier = 2;
+      multiplier = 2;
     }
 
     return Math.floor(multiplier * 100) / 100;
@@ -216,29 +216,26 @@ function MineBlast() {
             ))}
           </select>
         </div>
-
-        <p className="winnings">
-          Potentiel gevinst: <span>{gameStarted ? currentWinnings : 0} 💰</span>
-        </p>
-
-        {!gameStarted ? (
-          <div className="inputStart">
-            <input
-              type="number"
-              value={bet}
-              onChange={(e) => setBet(Number(e.target.value))}
-              placeholder="Indsats"
-            />
-            <button onClick={startGame} className="start-btn">
-              Start spil
-            </button>
-          </div>
-        ) : (
-          <p className="placedBet">
-            Indsat: <span>{placedBet} 💰</span>
-          </p>
-        )}
-
+        <div className="inputStart">
+          {!gameStarted ? (
+            <>
+              <label>Indsats</label>
+              <input
+                type="number"
+                value={bet}
+                onChange={(e) => setBet(Number(e.target.value))}
+                placeholder="Indsats"
+              />
+              <button onClick={startGame} className="start-btn">
+                Start spil
+              </button>
+            </>
+          ) : (
+            <p className="placedBet">
+              Gevinst: <span>{placedBet + currentWinnings} 💰</span>
+            </p>
+          )}
+        </div>
         {gameOver && (
           <p className="game-over">
             Spillet er slut! Tryk på start for at prøve igen.

@@ -49,6 +49,8 @@ p {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+  margin-top: 12px;
+
 }
 
 .balance span, .winnings span, .placedBet span {
@@ -57,14 +59,14 @@ p {
 }
 
 /* Input & Selection */
-.setGame {
+.setGame, .inputStart  {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
 }
 
-.setGame label {
+.setGame, .inputStart label {
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
@@ -214,6 +216,7 @@ button {
 .inputStart {
   display: flex;
   flex-direction: column;
+  margin-top: 12px;
 }
 
 .game-over {
