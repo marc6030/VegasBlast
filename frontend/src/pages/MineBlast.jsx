@@ -240,5 +240,6 @@ function MineBlast() {
       </div>
     </div>
   );
+}
 
   export default MineBlast;
