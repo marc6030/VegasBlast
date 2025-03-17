@@ -227,22 +227,29 @@ function MineBlast() {
       </div>
 
       <div className="grid-container">
-        {gameStarted && (
-          <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
+      {gameStarted && (
+        <div className="grid-container">
+          <div
+            className="grid"
+            style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+          >
             {grid.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
                 <button
                   key={`${rowIndex}-${colIndex}`}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                   disabled={gameOver}
-                  className={cell === "💣" ? "bomb" : "safe"}
+                  className={
+                    cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
+                  }
                 >
                   {cell}
                 </button>
               ))
             )}
           </div>
-        )}
+        </div>
+      )}
       </div>
     </div>
   );
