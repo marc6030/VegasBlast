@@ -31,8 +31,8 @@ function MineBlast() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, newSaldo }),
       });
-      updateSaldo(newSaldo);  // Update globally
-      setBalance(newSaldo);   // Locally
+      updateSaldo(newSaldo); // Update globally
+      setBalance(newSaldo); // Locally
     } catch (err) {
       console.error("Error updating saldo:", err);
     }
@@ -85,7 +85,7 @@ function MineBlast() {
     }
 
     setPlacedBet(numericBet);
-    setBalance(prev => prev - numericBet);
+    setBalance((prev) => prev - numericBet);
     setGameStarted(true);
     setGameOver(false);
     setClickedCells(new Set());
@@ -95,39 +95,43 @@ function MineBlast() {
     setBombs(bombs);
   };
 
-  const handleCellClick = (row, col) => {
-    if (gameOver || clickedCells.has(row * gridSize + col)) return;
-    const index = row * gridSize + col;
-
-    if (bombs.includes(index)) {
-      handleLoss();  // Lost
-      return;
-    }
-
-    const newClickedCells = new Set([...clickedCells, index]);
-    setClickedCells(newClickedCells);
-    const multiplier = getMultiplier(gridSize, bombCount, newClickedCells);
-
-    setGrid(prevGrid =>
-      prevGrid.map((r, rowIndex) =>
-        rowIndex === row
-          ? r.map((c, colIndex) => colIndex === col ? `${multiplier}` : c)
-          : r
-      )
-    );
-
-    setCurrentWinnings(prev => prev + Math.floor(placedBet * multiplier));
-  };
-
   const handleLoss = () => {
     revealGrid();
-    syncSaldo(balance);  // Lost, balance already deducted
+    syncSaldo(balance); // Lost, balance already deducted
   };
 
   const handleWin = () => {
     const newSaldo = balance + currentWinnings + placedBet;
     syncSaldo(newSaldo);
     revealGrid();
+  };
+
+  const handleCellClick = (row, col) => {
+    if (gameOver || clickedCells.has(row * gridSize + col)) {
+      return;
+    }
+
+    const index = row * gridSize + col;
+
+    if (bombs.includes(index)) {
+      revealGrid();
+      return;
+    }
+
+    const newClickedCells = new Set([...clickedCells, index]);
+    setClickedCells(newClickedCells);
+
+    const multiplier = getMultiplier(gridSize, bombCount, newClickedCells);
+
+    setGrid((prevGrid) =>
+      prevGrid.map((r, rowIndex) =>
+        rowIndex === row
+          ? r.map((c, colIndex) => (colIndex === col ? `x${multiplier}` : c))
+          : r
+      )
+    );
+
+    setCurrentWinnings((prev) => prev + Math.floor(placedBet * multiplier));
   };
 
   const revealGrid = () => {
@@ -175,23 +179,41 @@ function MineBlast() {
     <div className="mineblast-container">
       <div className="left-content">
         <h1 className="title">MineBlast 💣</h1>
-        <p className="balance">Saldo: <span>{balance} 💰</span></p>
+        <p className="balance">
+          Saldo: <span>{balance} 💰</span>
+        </p>
 
         <div className="setGame">
           <label>Spil Størrelse</label>
-          <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
-            {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
+          <select
+            value={gridSize}
+            onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}
+          >
+            {[3, 4, 5].map((size) => (
+              <option key={size} value={size}>
+                {size}x{size}
+              </option>
+            ))}
           </select>
 
           <label>Antal Miner</label>
-          <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
-            {[...Array(gridSize * gridSize - 1).keys()].map(num => (
-              <option key={num + 1} value={num + 1}>{num + 1}</option>
+          <select
+            value={bombCount}
+            onChange={(e) =>
+              !gameStarted && setBombCount(parseInt(e.target.value))
+            }
+          >
+            {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
+              <option key={num + 1} value={num + 1}>
+                {num + 1}
+              </option>
             ))}
           </select>
         </div>
 
-        <p className="winnings">Potentiel gevinst: <span>{gameStarted ? currentWinnings : 0} 💰</span></p>
+        <p className="winnings">
+          Potentiel gevinst: <span>{gameStarted ? currentWinnings : 0} 💰</span>
+        </p>
 
         {!gameStarted ? (
           <div className="inputStart">
@@ -201,13 +223,21 @@ function MineBlast() {
               onChange={(e) => setBet(Number(e.target.value))}
               placeholder="Indsats"
             />
-            <button onClick={startGame} className="start-btn">Start spil</button>
+            <button onClick={startGame} className="start-btn">
+              Start spil
+            </button>
           </div>
         ) : (
-          <p className="placedBet">Indsat: <span>{placedBet} 💰</span></p>
+          <p className="placedBet">
+            Indsat: <span>{placedBet} 💰</span>
+          </p>
         )}
 
-        {gameOver && <p className="game-over">Spillet er slut! Tryk på start for at prøve igen.</p>}
+        {gameOver && (
+          <p className="game-over">
+            Spillet er slut! Tryk på start for at prøve igen.
+          </p>
+        )}
 
         {gameStarted && !gameOver && (
           <button onClick={handleWin} className="withdraw-btn">
@@ -216,40 +246,43 @@ function MineBlast() {
         )}
 
         {gameOver && (
-          <button onClick={() => {
-            setGameStarted(false);
-            setGameOver(false);
-            setPlacedBet(null);
-          }} className="restart-btn">
+          <button
+            onClick={() => {
+              setGameStarted(false);
+              setGameOver(false);
+              setPlacedBet(null);
+            }}
+            className="restart-btn"
+          >
             Start nyt spil
           </button>
         )}
       </div>
 
       <div className="grid-container">
-      {gameStarted && (
-        <div className="grid-container">
-          <div
-            className="grid"
-            style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
-          >
-            {grid.map((row, rowIndex) =>
-              row.map((cell, colIndex) => (
-                <button
-                  key={`${rowIndex}-${colIndex}`}
-                  onClick={() => handleCellClick(rowIndex, colIndex)}
-                  disabled={gameOver}
-                  className={
-                    cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
-                  }
-                >
-                  {cell}
-                </button>
-              ))
-            )}
+        {gameStarted && (
+          <div className="grid-container">
+            <div
+              className="grid"
+              style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+            >
+              {grid.map((row, rowIndex) =>
+                row.map((cell, colIndex) => (
+                  <button
+                    key={`${rowIndex}-${colIndex}`}
+                    onClick={() => handleCellClick(rowIndex, colIndex)}
+                    disabled={gameOver}
+                    className={
+                      cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
+                    }
+                  >
+                    {cell}
+                  </button>
+                ))
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );
