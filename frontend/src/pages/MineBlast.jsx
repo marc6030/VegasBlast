@@ -10,8 +10,8 @@ function MineBlast() {
   const [gameStarted, setGameStarted] = useState(false);
   const [bet, setBet] = useState(100);
   const [placedBet, setPlacedBet] = useState(null);
-  const [gridSize, setGridSize] = useState(3);
-  const [bombCount, setBombCount] = useState(1);
+  const [gridSize, setGridSize] = useState(5);
+  const [bombCount, setBombCount] = useState(3);
   const [gameOver, setGameOver] = useState(false);
   const [clickedCells, setClickedCells] = useState(new Set());
   const [grid, setGrid] = useState([]);
@@ -72,7 +72,9 @@ function MineBlast() {
   };
 
   const createEmptyGrid = (size) => {
-    return Array(size).fill(null).map(() => Array(size).fill("❓"));
+    return Array(size)
+      .fill(null)
+      .map(() => Array(size).fill("❓"));
   };
 
   const startGame = () => {
@@ -89,7 +91,8 @@ function MineBlast() {
     setClickedCells(new Set());
     setCurrentWinnings(0);
     setGrid(createEmptyGrid(gridSize));
-    setBombs(generateBombs(gridSize, bombCount));
+    let bombs = generateBombs(gridSize, bombCount);
+    setBombs(bombs);
   };
 
   const handleCellClick = (row, col) => {
@@ -128,7 +131,7 @@ function MineBlast() {
   };
 
   const revealGrid = () => {
-    setGrid(prevGrid =>
+    setGrid((prevGrid) =>
       prevGrid.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           const index = rowIndex * gridSize + colIndex;
@@ -170,8 +173,9 @@ function MineBlast() {
 
   return (
     <div className="mineblast-container">
-      <h1>MineBlast 💣</h1>
-      <p>Saldo: {balance} 💰</p>
+      <div className="left-content">
+        <h1>MineBlast 💣</h1>
+        <p>Saldo: {balance} 💰</p>
 
       <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
         {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
@@ -211,12 +215,48 @@ function MineBlast() {
                 disabled={gameOver}
                 className={cell === "💣" ? "bomb" : "safe"}
               >
-                {cell}
-              </button>
-            ))
+                {[3, 4, 5].map((size) => (
+                  <option key={size} value={size}>
+                    {size}x{size}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <p>Bomb</p>
+              <select
+                value={bombCount}
+                onChange={(e) =>
+                  !gameStarted && setBombCount(parseInt(e.target.value))
+                }
+              >
+                {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
+                  <option key={num + 1} value={num + 1}>
+                    {num + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
+
+        <div className="inputStart">
+          {!gameStarted ? (
+            <>
+              <p>Indsats</p>
+              <input
+                type="number"
+                value={bet}
+                onChange={(e) => setBet(Number(e.target.value))}
+                placeholder="Indsats"
+              />
+              <button onClick={startGame}>Start spil</button>
+            </>
+          ) : (
+            <p>Gevinst: {currentWinnings + placedBet} 💰</p>
           )}
         </div>
-      )}
 
       {gameOver && (
         <button onClick={() => {

@@ -1,82 +1,157 @@
 .mineblast-container {
-  text-align: center;
-  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100vw;
+  height: 90vh;
   padding: 20px;
-  max-width: 400px;
   margin: auto;
-  background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin-top: 10vh;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
 }
 
-h1 {
-  color: #ff5722;
+.left-content {
+  flex: 1;
+  height: 100%;
+  width: 40%;
+  max-width: 40%;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-p {
-  font-size: 18px;
-  margin: 10px 0;
+.grid-container {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.grid-container::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
 }
 
 .grid {
   display: grid;
-  gap: 5px;
-  margin: 20px auto;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: calc(90% - 8px);
+  max-width: 100%;
+  max-height: 90%;
+  padding: 8px;
+  gap: 8px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: right;
 }
 
 .grid button {
-  width: 60px;
-  height: 60px;
-  font-size: 20px;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s;
-  border-radius: 5px;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+  color: white;
+  border: 0;
+  border-radius: 8px; /* Outer border radius */
+  border-color: #a328d0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  font-size: min(4vw, 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Ensure we can position the pseudo-element */
 }
+
 
 .grid button.safe {
-  background-color: lightgreen;
-}
-
-.grid button.bomb {
-  background-color: red;
-  color: white;
-  font-weight: bold;
+  background: radial-gradient(circle, #00ff1e, #00cd0e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .grid button:hover {
-  opacity: 0.8;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+.grid button:active {
+  background: radial-gradient(circle, #ff4d4d, #ff0000);
+  transform: scale(0.97);
+}
+
+.grid button.bomb {
+  background: radial-gradient(circle, #ff4d4d, #ff0000);
+}
+
+.grid button.safe {
+  background: radial-gradient(circle, #00ff1e, #00cd0e);
 }
 
 button {
-  background-color: #007bff;
+  padding: 12px 24px;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   color: white;
-  padding: 10px 20px;
-  margin: 10px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 16px;
-  transition: 0.2s;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
 }
 
-input, select {
-  padding: 10px;
+button:active {
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+  transform: scale(0.98);
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+  background: radial-gradient(circle, #ff0000, #ff7300);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: auto;
+}
+
+p {
+  color: #555;
   font-size: 16px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
-select {
-  background-color: white;
-  cursor: pointer;
+.setGame {
+  margin-bottom: auto;
+}
+
+.inputStart {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-size: 18px;
+}
+
+.game-over {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.game-won {
+  color: #388e3c;
+  font-weight: bold;
 }
