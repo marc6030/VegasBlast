@@ -1,27 +1,37 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
+    // 📌 Ved første load: Tjek om bruger er gemt i localStorage
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
     const login = (userData) => {
-        // 📌 Sørger for at saldo altid er et afrundet heltal
         const sanitizedUserData = {
             ...userData,
-            saldo: userData.saldo ? Math.round(userData.saldo) : 0, // Sikrer at saldo er afrundet
+            saldo: userData.saldo ? Math.round(userData.saldo) : 0,
         };
         setUser(sanitizedUserData);
+        localStorage.setItem("user", JSON.stringify(sanitizedUserData));  // Gem
     };
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem("user");  // Fjern ved logout
     };
 
-    // 📌 Funktion til at opdatere saldo globalt
     const updateSaldo = (newSaldo) => {
         if (user) {
-            setUser((prevUser) => ({ ...prevUser, saldo: Math.round(newSaldo) }));
+            const updatedUser = { ...user, saldo: Math.round(newSaldo) };
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));  // Opdater gemt bruger
         }
     };
 
