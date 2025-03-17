@@ -177,104 +177,68 @@ function MineBlast() {
         <h1>MineBlast 💣</h1>
         <p>Saldo: {balance} 💰</p>
 
-      <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
-        {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
-      </select>
+        <select value={gridSize} onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}>
+          {[3, 4, 5].map(size => <option key={size} value={size}>{size}x{size}</option>)}
+        </select>
 
-      <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
-        {[...Array(gridSize * gridSize - 1).keys()].map(num => (
-          <option key={num + 1} value={num + 1}>{num + 1}</option>
-        ))}
-      </select>
+        <select value={bombCount} onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}>
+          {[...Array(gridSize * gridSize - 1).keys()].map(num => (
+            <option key={num + 1} value={num + 1}>{num + 1}</option>
+          ))}
+        </select>
 
-      <p>Potentiel gevinst: {gameStarted ? currentWinnings : 0} 💰</p>
+        <p>Potentiel gevinst: {gameStarted ? currentWinnings : 0} 💰</p>
 
-      {!gameStarted ? (
-        <>
-          <input
-            type="number"
-            value={bet}
-            onChange={(e) => setBet(Number(e.target.value))}
-            placeholder="Indsats"
-          />
-          <button onClick={startGame}>Start spil</button>
-        </>
-      ) : (
-        <p>Indsat: {placedBet} 💰</p>
-      )}
+        {!gameStarted ? (
+          <>
+            <input
+              type="number"
+              value={bet}
+              onChange={(e) => setBet(Number(e.target.value))}
+              placeholder="Indsats"
+            />
+            <button onClick={startGame}>Start spil</button>
+          </>
+        ) : (
+          <p>Indsat: {placedBet} 💰</p>
+        )}
 
-      {gameOver && <p>Spillet er slut! Tryk på start for at prøve igen.</p>}
+        {gameOver && <p>Spillet er slut! Tryk på start for at prøve igen.</p>}
 
-      {gameStarted && (
-        <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
-          {grid.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
-                disabled={gameOver}
-                className={cell === "💣" ? "bomb" : "safe"}
-              >
-                {[3, 4, 5].map((size) => (
-                  <option key={size} value={size}>
-                    {size}x{size}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <p>Bomb</p>
-              <select
-                value={bombCount}
-                onChange={(e) =>
-                  !gameStarted && setBombCount(parseInt(e.target.value))
-                }
-              >
-                {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
-                  <option key={num + 1} value={num + 1}>
-                    {num + 1}
-                  </option>
-                ))}
-              </select>
-            </div>
+        {gameStarted && (
+          <div className="grid" style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}>
+            {grid.map((row, rowIndex) =>
+              row.map((cell, colIndex) => (
+                <button
+                  key={`${rowIndex}-${colIndex}`}
+                  onClick={() => handleCellClick(rowIndex, colIndex)}
+                  disabled={gameOver}
+                  className={cell === "💣" ? "bomb" : "safe"}
+                >
+                  {cell}
+                </button>
+              ))
+            )}
           </div>
         )}
 
-        <div className="inputStart">
-          {!gameStarted ? (
-            <>
-              <p>Indsats</p>
-              <input
-                type="number"
-                value={bet}
-                onChange={(e) => setBet(Number(e.target.value))}
-                placeholder="Indsats"
-              />
-              <button onClick={startGame}>Start spil</button>
-            </>
-          ) : (
-            <p>Gevinst: {currentWinnings + placedBet} 💰</p>
-          )}
-        </div>
+        {gameOver && (
+          <button onClick={() => {
+            setGameStarted(false);
+            setGameOver(false);
+            setPlacedBet(null);
+          }}>
+            Start nyt spil
+          </button>
+        )}
 
-      {gameOver && (
-        <button onClick={() => {
-          setGameStarted(false);
-          setGameOver(false);
-          setPlacedBet(null);
-        }}>
-          Start nyt spil
-        </button>
-      )}
-
-      {gameStarted && !gameOver && (
-        <button onClick={handleWin}>
-          Træk dig og tag din gevinst
-        </button>
-      )}
+        {gameStarted && !gameOver && (
+          <button onClick={handleWin}>
+            Træk dig og tag din gevinst
+          </button>
+        )}
+      </div>
     </div>
   );
-}
 
-export default MineBlast;
+  export default MineBlast;
