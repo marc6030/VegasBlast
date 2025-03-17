@@ -203,7 +203,23 @@ button {
   background: radial-gradient(circle, #ff4d4d, #ff0000);
 }
 
+<<<<<<< HEAD
 /* Game Messages */
+=======
+.grid button.safe {
+  background: radial-gradient(circle, #00ff1e, #00cd0e);
+}
+
+.setGame {
+  margin-bottom: auto;
+}
+
+.inputStart {
+  display: flex;
+  flex-direction: column;
+}
+
+>>>>>>> loginsignuphomepage
 .game-over {
   font-size: 18px;
   font-weight: bold;

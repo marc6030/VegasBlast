@@ -45,15 +45,21 @@ function MineBlast() {
   const getMultiplier = (gridSize, bombCount, clickedCells) => {
     const totalFields = gridSize * gridSize;
     const safeFields = totalFields - bombCount;
-    const clickedFields = clickedCells.size;
-    if (clickedFields === 0 || clickedFields > safeFields) return 0;
+    const clickedFields = clickedCells.size - 1;
+
+    if (clickedFields > safeFields) return 0; // Forhindrer fejl (kan mulgvis slettes)
+
     let multiplier = 1;
-    for (let i = 0; i < clickedFields; i++) {
-      multiplier *= (totalFields - i) / (safeFields - i);
+
+    if (safeFields - clickedFields > 0) {
+        multiplier = (totalFields - clickedFields) / (safeFields - clickedFields);
+        multiplier *= 0.99; // Husets fordel
+        multiplier -= 1; // Fjern grundindsatsen
+    } else {
+        multiplier = 2;
     }
-    multiplier *= 0.97;
-    multiplier -= 1;
-    return multiplier.toFixed(2);
+
+    return Math.floor(multiplier * 100) / 100;
   };
 
   const calculateWinnings = () => {
