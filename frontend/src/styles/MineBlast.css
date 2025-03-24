@@ -188,6 +188,12 @@ button {
   font-size: 1.5rem; /* Fixed font size to prevent growing */
 }
 
+.grid button.x5 {
+  background: radial-gradient(circle, #FFD700, #B8860B);
+}
+.grid button.x5:hover {
+  background: radial-gradient(circle, #FFD700, #B8860B);
+}
 
 /* Grid Button States */
 .grid button:hover {
@@ -233,4 +239,14 @@ button {
   color: #388e3c;
   text-align: center;
   margin-bottom: 16px;
+}
+
+.state-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.state-btn {
+  width: 40%;
+  margin: 20px;
 }

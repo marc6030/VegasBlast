@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/MineBlast.css";
 
@@ -18,6 +18,16 @@ function MineBlast() {
   const [grid, setGrid] = useState([]);
   const [bombs, setBombs] = useState([]);
   const [currentWinnings, setCurrentWinnings] = useState(0);
+
+  const navigate = useNavigate();
+
+  const goToMineBlast = () => {
+    navigate('/MineBlast');
+  };
+
+  const goToMineBlastlightning = () => {
+    navigate('/MineBlastlightning');
+  };
 
   // Sync balance with user at login/refresh
   useEffect(() => {
@@ -66,7 +76,13 @@ function MineBlast() {
       multiplier = 2;
     }
 
-    return Math.floor(multiplier * 100) / 100;
+    if(multiplier < 0.01){
+      multiplier = 0.01;
+    }
+
+    multiplier = multiplier.toFixed(2)
+
+    return multiplier;
   };
 
   const calculateWinnings = () => {
@@ -87,7 +103,7 @@ function MineBlast() {
   const createEmptyGrid = (size) => {
     return Array(size)
       .fill(null)
-      .map(() => Array(size).fill("❓"));
+      .map(() => Array(size).fill(""));
   };
 
   const startGame = () => {
@@ -154,7 +170,7 @@ function MineBlast() {
           const index = rowIndex * gridSize + colIndex;
           if (bombs.includes(index)) return "💣";
           if (clickedCells.has(index)) return cell;
-          return "❓";
+          return "";
         })
       )
     );
@@ -192,6 +208,14 @@ function MineBlast() {
     <div className="MineBlast-container">
       <div className="left-content">
         <h1 className="title">MineBlast 💣</h1>
+        <div className="state-container">
+          <button onClick={goToMineBlast} className="state-btn">
+            Classic💣
+          </button>
+          <button onClick={goToMineBlastlightning} className="state-btn">
+            Lightning⚡
+          </button>
+        </div>
         <p className="balance">
           Saldo: <span>{balance} 💰</span>
         </p>
