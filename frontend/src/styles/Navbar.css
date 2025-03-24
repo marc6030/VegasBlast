@@ -53,3 +53,18 @@
     padding-top: 10px;
   }
 }
+.logo-button {
+  text-decoration: none;
+}
+
+.logo-button h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s;
+}
+
+.logo-button h1:hover {
+  transform: scale(1.1);
+}

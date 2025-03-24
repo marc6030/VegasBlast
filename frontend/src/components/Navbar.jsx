@@ -8,7 +8,9 @@ function Navbar() {
 
     return (
         <nav className="navbar">
-            <h1>VegasBlast 🎰</h1>
+            <Link to="/MainPage" className="logo-button">
+                <h1>VegasBlast 🎰</h1>
+            </Link>
             <ul className="nav-links">
                 <li><Link to="/MineBlast">MineBlast</Link></li>
                 <li><Link to="/MineBlastlightning">MineBlast Lightning</Link></li>
