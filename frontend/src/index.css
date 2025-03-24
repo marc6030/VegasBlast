@@ -103,7 +103,3 @@ p {
   color: #555;
   font-size: 16px;
 }
-
-link:hover {
-  animation: soft-pulse 1.5s infinite ease-in-out;
-}
