@@ -67,7 +67,7 @@ function MineBlast() {
     if (clickedFields > safeFields) return 0;
 
     let multiplier = 1;
-    multiplier *= (totalFields - i) / (safeFields - i);
+    multiplier = (totalFields - clickedFields) / (safeFields - clickedFields);
 
     multiplier *= 0.92; // Husets fordel 8%
     multiplier -= 1; // Fjern grundindsats
