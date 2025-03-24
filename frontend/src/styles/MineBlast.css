@@ -10,13 +10,41 @@
   background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
+.left-container {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  max-width: 50%;
+}
+
+.state-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly; /* Add space between the buttons */
+  align-items: center;
+  position: relative;
+}
+
+.state-btn-left,
+.state-btn-right {
+  max-height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 40%;
+  margin-top: 12px;
+}
 
 /* Left Content Panel */
 .left-content {
-  flex: 1;
-  width: 40%;
-  max-width: 40%;
+  width: 80%;
   height: 100%;
+  max-width: 100%;
+  max-height: 90%;
   padding: 24px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -24,6 +52,9 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  justify-content: center;
+  
 }
 
 /* Titles & Text */
@@ -140,6 +171,7 @@ button {
   justify-content: center;
   align-items: center;
   position: relative;
+  max-width: 50%;
 }
 
 .grid-container::before {
@@ -241,12 +273,4 @@ button {
   margin-bottom: 16px;
 }
 
-.state-container {
-  width: 100%;
-  max-width: 100%;
-}
 
-.state-btn {
-  width: 40%;
-  margin: 20px;
-}
