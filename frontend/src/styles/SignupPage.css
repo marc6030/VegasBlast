@@ -1,0 +1,76 @@
+/* Signup-formular bruger samme container */
+.signup-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Formular- og velkomstboks genbruges */
+.signup-form-box, .signup-welcome-box {
+    background: #ffffff1a;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Inputfelter */
+.signup-form input {
+    width: 100%;
+    background: #ffffff26;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 0px solid #d1d1d1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+    -webkit-text-fill-color: #fff;
+}
+
+/* Knapper */
+.signup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.signup-button:hover {
+    background-color: #005fcc;
+}
+
+/* Beskeder */
+.signup-error-message {
+    color: #ff3b30;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.signup-success-message {
+    color: #4cd964;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.signup-form-box h2,
+.signup-welcome-box h2 {
+    font-size: 28px;
+    color: #fff;
+    animation: glow 2s infinite ease-in-out;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}

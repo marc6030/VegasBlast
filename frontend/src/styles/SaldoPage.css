@@ -1,0 +1,83 @@
+/* Container til saldo-siden */
+.saldo-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Boks med saldo-information */
+.saldo-box {
+    background: #ffffff1a;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+/* Tekst animation */
+.saldo-box h2 {
+    font-size: 28px;
+    color: #fff;
+    animation: glow 2s infinite ease-in-out;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.saldo-box p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Knap */
+.saldo-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.saldo-button:hover {
+    background-color: #005fcc;
+}
+
+/* Besked */
+.saldo-message-success {
+    color: #4cd964;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.saldo-message-error {
+    color: #ff3b30;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Saldo-tekst (fx i topbar eller separat visning) */
+.saldo-display {
+    font-size: 20px;
+    color: #fff;
+    background: #ffffff1a;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    animation: glow 2s infinite ease-in-out;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}

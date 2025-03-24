@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // 📌 Importér AuthContext
+import { AuthContext } from "../context/AuthContext";
+import "../styles/SignupPage.css";
 
 const SignupPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-    const { user, login, logout } = useContext(AuthContext); // 📌 Brug global login-state
+    const { user, login, logout } = useContext(AuthContext);
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -34,18 +35,16 @@ const SignupPage = () => {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <div className="signup-container">
             {user ? (
-                // 📌 Hvis brugeren er logget ind, vis velkomstbesked og logud-knap
-                <div>
+                <div className="signup-welcome-box">
                     <h2>Velkommen, {user.username}!</h2>
-                    <button onClick={logout}>Log ud</button>
+                    <button onClick={logout} className="signup-button">Log ud</button>
                 </div>
             ) : (
-                // 📌 Hvis brugeren ikke er logget ind, vis signup-formularen
-                <div>
+                <div className="signup-form-box">
                     <h2>Opret bruger</h2>
-                    <form onSubmit={handleSignup}>
+                    <form onSubmit={handleSignup} className="signup-form">
                         <input
                             type="text"
                             placeholder="Brugernavn"
@@ -60,9 +59,9 @@ const SignupPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <button type="submit">Opret</button>
-                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+                        <button type="submit" className="signup-button">Opret</button>
+                        {errorMessage && <p className="signup-error-message">{errorMessage}</p>}
+                        {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     </form>
                 </div>
             )}

@@ -1,18 +1,25 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // 📌 Brug auth kontekst
+import { AuthContext } from "../context/AuthContext";
+import "../styles/SaldoPage.css"; // Eller AuthPage.css
 
 const SaldoPage = () => {
-    const { user, updateSaldo } = useContext(AuthContext); // 📌 Hent updateSaldo
+    const { user, updateSaldo } = useContext(AuthContext);
     const [message, setMessage] = useState("");
 
     if (!user) {
-        return <p>❌ Du skal være logget ind for at ændre saldo!</p>;
+        return (
+            <div className="saldo-container">
+                <div className="saldo-box">
+                    <p className="saldo-message-error">❌ Du skal være logget ind for at ændre saldo!</p>
+                </div>
+            </div>
+        );
     }
 
     const handleAddSaldo = async () => {
         try {
-            const currentSaldo = Math.round(user.saldo); // 📌 Hent den nyeste saldo
-            const newSaldo = Math.round(currentSaldo + 100); // 🔥 Fix floating point fejl
+            const currentSaldo = Math.round(user.saldo);
+            const newSaldo = Math.round(currentSaldo + 100);
 
             const response = await fetch("http://130.225.170.52:10171/api/change-saldo", {
                 method: "POST",
@@ -22,7 +29,7 @@ const SaldoPage = () => {
 
             const data = await response.json();
             if (response.ok) {
-                updateSaldo(newSaldo); // 📌 Opdater saldo i AuthContext!
+                updateSaldo(newSaldo);
                 setMessage(`✅ Saldo opdateret! Ny saldo: ${newSaldo} kr.`);
             } else {
                 setMessage(data.error || "❌ Fejl ved saldo-opdatering!");
@@ -34,11 +41,17 @@ const SaldoPage = () => {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "150px" }}>
-            <h2>Tilføj penge til saldo</h2>
-            <p>Din nuværende saldo: {user.saldo} kr.</p> {/* 📌 Viser nu global saldo */}
-            <button onClick={handleAddSaldo}>Tilføj 100 kr.</button>
-            {message && <p style={{ marginTop: "10px", color: message.includes("✅") ? "green" : "red" }}>{message}</p>}
+        <div className="saldo-container">
+            <div className="saldo-box">
+                <h2>Tilføj penge til saldo</h2>
+                <h3 className="saldo-display">Saldo: {user.saldo} coins</h3>
+                <button onClick={handleAddSaldo} className="saldo-button">Tilføj 100 coins</button>
+                {message && (
+                    <p className={message.includes("✅") ? "saldo-message-success" : "saldo-message-error"}>
+                        {message}
+                    </p>
+                )}
+            </div>
         </div>
     );
 };
