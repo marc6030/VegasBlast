@@ -233,16 +233,19 @@ function MineBlast() {
 
           <div className="setGame">
             <label>Spil Størrelse</label>
-            <select
-              value={gridSize}
-              onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}
-            >
-              {[3, 4, 5].map((size) => (
-                <option key={size} value={size}>
-                  {size}x{size}
-                </option>
-              ))}
-            </select>
+            <div className="grid-size">
+              <div className="grid-size-buttons">
+                {[3, 4, 5].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => handleGridSizeChange(size)}
+                    className="grid-size-btn"
+                  >
+                    {size}x{size}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <label>Antal Miner</label>
             <select
