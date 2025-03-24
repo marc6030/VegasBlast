@@ -25,8 +25,8 @@ function MineBlast() {
     navigate("/MineBlast");
   };
 
-  const goToMineBlastlightning = () => {
-    navigate("/MineBlastlightning");
+  const goToMineBlastLightning = () => {
+    navigate("/MineBlastLightning");
   };
 
   // Sync balance with user at login/refresh
@@ -213,7 +213,7 @@ function MineBlast() {
             <button onClick={goToMineBlast} className="state-btn">
               Classic💣
             </button>
-            <button onClick={goToMineBlastlightning} className="state-btn">
+            <button onClick={goToMineBlastLightning} className="state-btn">
               Lightning⚡
             </button>
           </div>
