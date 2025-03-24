@@ -36,11 +36,11 @@
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: soft-pulse 1.5s infinite ease-in-out;
 }
 
 .image-container:hover {
-    transform: scale(1.05); /* Slightly zoom in the image container */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+    animation: soft-pulse 1s infinite ease-in-out;
 }
 
 .image-container img {
