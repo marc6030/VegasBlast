@@ -26,16 +26,15 @@
   justify-content: space-evenly; /* Add space between the buttons */
   align-items: center;
   position: relative;
+  gap: 30px;
 }
 
-.state-btn-left,
-.state-btn-right {
+.state-btn {
   max-height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 40%;
   margin-top: 12px;
 }
 
@@ -273,4 +272,33 @@ button {
   margin-bottom: 16px;
 }
 
+.grid-size {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.grid-size-buttons {
+  display: flex;
+  justify-content: space-evenly; /* Evenly space the buttons */
+  align-items: center;
+  width: 100%; /* Make sure the buttons container takes the full width */
+  gap: 30px;
+}
+
+.grid-size-btn {
+  display: flex;
+  max-height: fit-content;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 

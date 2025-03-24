@@ -9,7 +9,7 @@ function MineBlast() {
 
   const [balance, setBalance] = useState(user?.saldo || 0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [bet, setBet] = useState(100);
+  const [bet, setBet] = useState(1000);
   const [placedBet, setPlacedBet] = useState(null);
   const [gridSize, setGridSize] = useState(5);
   const [bombCount, setBombCount] = useState(3);
@@ -210,10 +210,10 @@ function MineBlast() {
         <div className="left-content">
           <h1 className="title">MineBlast 💣</h1>
           <div className="state-container">
-            <button onClick={goToMineBlast} className="state-btn-left">
+            <button onClick={goToMineBlast} className="state-btn">
               Classic💣
             </button>
-            <button onClick={goToMineBlastlightning} className="state-btn-right">
+            <button onClick={goToMineBlastlightning} className="state-btn">
               Lightning⚡
             </button>
           </div>
@@ -223,16 +223,19 @@ function MineBlast() {
 
           <div className="setGame">
             <label>Spil Størrelse</label>
-            <select
-              value={gridSize}
-              onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}
-            >
-              {[3, 4, 5].map((size) => (
-                <option key={size} value={size}>
-                  {size}x{size}
-                </option>
-              ))}
-            </select>
+            <div className="grid-size">
+              <div className="grid-size-buttons">
+                {[3, 4, 5].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => handleGridSizeChange(size)}
+                    className="grid-size-btn"
+                  >
+                    {size}x{size}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <label>Antal Miner</label>
             <select
