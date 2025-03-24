@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/LoginPage.css";
 
@@ -30,7 +31,7 @@ const LoginPage = () => {
             console.error("Login-fejl:", error);
         }
     };
-
+    if (user) return <Navigate to="/MineBlast" />;
     return (
         <div className="login-container">
             {user ? (

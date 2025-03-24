@@ -185,7 +185,7 @@ function MineBlast() {
   };
 
   return (
-    <div className="mineblast-container">
+    <div className="MineBlast-container">
       <h1>MineBlast 💣</h1>
       <p>Saldo: {balance} 💰</p>
 

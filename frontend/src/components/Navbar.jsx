@@ -10,8 +10,8 @@ function Navbar() {
         <nav className="navbar">
             <h1>VegasBlast 🎰</h1>
             <ul className="nav-links">
-                <li><Link to="/mineblast">MineBlast</Link></li>
-                <li><Link to="/mineblastlightning">MineBlast Lightning</Link></li>
+                <li><Link to="/MineBlast">MineBlast</Link></li>
+                <li><Link to="/MineBlastlightning">MineBlast Lightning</Link></li>
                 {user ? (
                     // 📌 Hvis brugeren er logget ind, vis brugernavn, saldo + log ud-knap
                     <>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/MineBlast.css";
 
@@ -179,10 +180,10 @@ function MineBlast() {
     }
   };
 
-  if (!user) return <p>🔒 Du skal være logget ind for at spille MineBlast!</p>;
+  if (!user) return <Navigate to="/login" />;
 
   return (
-    <div className="mineblast-container">
+    <div className="MineBlast-container">
       <div className="left-content">
         <h1 className="title">MineBlast 💣</h1>
         <p className="balance">
@@ -261,7 +262,7 @@ function MineBlast() {
           </button>
         )}
       </div>
-
+       
       <div className="grid-container">
         {gameStarted && (
           <div className="grid-container">
