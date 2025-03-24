@@ -24,6 +24,12 @@ function MineBlast() {
     if (user) setBalance(user.saldo);
   }, [user]);
 
+  useEffect(() => {
+    if (!gameStarted) {
+      setGrid(createEmptyGrid(gridSize));
+    }
+  }, [gridSize, gameStarted]);
+
   // Update balance in backend and globally
   const syncSaldo = async (newSaldo) => {
     try {
@@ -262,31 +268,27 @@ function MineBlast() {
           </button>
         )}
       </div>
-       
+
       <div className="grid-container">
-        {gameStarted && (
-          <div className="grid-container">
-            <div
-              className="grid"
-              style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
-            >
-              {grid.map((row, rowIndex) =>
-                row.map((cell, colIndex) => (
-                  <button
-                    key={`${rowIndex}-${colIndex}`}
-                    onClick={() => handleCellClick(rowIndex, colIndex)}
-                    disabled={gameOver}
-                    className={
-                      cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
-                    }
-                  >
-                    {cell}
-                  </button>
-                ))
-              )}
-            </div>
-          </div>
-        )}
+        <div
+          className="grid"
+          style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+        >
+          {grid.map((row, rowIndex) =>
+            row.map((cell, colIndex) => (
+              <button
+                key={`${rowIndex}-${colIndex}`}
+                onClick={() => gameStarted && handleCellClick(rowIndex, colIndex)}
+                disabled={!gameStarted || gameOver}
+                className={
+                  cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
+                }
+              >
+                {cell}
+              </button>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
