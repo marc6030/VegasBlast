@@ -1,70 +1,76 @@
-/* Standard navbar styling */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
-  height: 10vh; /* Adjust based on preference */
-  min-height: 60px; /* Ensures it's not too small */
-  max-height: 80px; /* Prevents it from getting too big */  
+  height: 10vh;
+  min-height: 60px;
+  max-height: 80px;
   width: 100%;
-  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+  background: linear-gradient(135deg, #6b0092, #c236fd);
   color: white;
-  padding: 15px 20px; /* Standard padding */
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Sørg for, at den ligger øverst */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
   box-sizing: border-box;
+  transition: background 0.3s ease;
 }
 
-/* Navigation links container */
 .nav-links {
   display: flex;
-  gap: 20px; /* Ens afstand mellem links */
+  gap: 25px;
   list-style: none;
+  align-items: center;
 }
 
-/* Styling for links */
-.nav-links a {
+.nav-item a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s;
-  padding: 5px 10px; /* Lidt ekstra klik-område */
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-/* Hover effekt */
-.nav-links a:hover {
-  color: #facc15; /* Gul farve ved hover */
+.nav-item a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #facc15;
 }
 
-/* Gør navbar responsiv */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    text-align: center;
-    padding: 10px;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 10px;
-  }
+.button-coins {
+  border: none;
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 0 10px #28a745;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
 }
+
+.button-coins:hover {
+  background: #34d058;
+  box-shadow: 0 0 20px #34d058;
+}
+
 .logo-button {
   text-decoration: none;
 }
 
 .logo-button h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   cursor: pointer;
   color: white;
-  transition: transform 0.2s;
+  transition: transform 0.3s ease;
 }
 
 .logo-button h1:hover {
   transform: scale(1.1);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #facc15, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

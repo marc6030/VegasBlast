@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import "../styles/SaldoPage.css"; // Eller AuthPage.css
 
 const SaldoPage = () => {
-    const { user, updateSaldo } = useContext(AuthContext);
+    const { user, updateSaldo, logout } = useContext(AuthContext);
     const [message, setMessage] = useState("");
 
     if (!user) {
@@ -43,6 +43,7 @@ const SaldoPage = () => {
     return (
         <div className="saldo-container">
             <div className="saldo-box">
+                <h2>Hej, {user.username}!</h2>
                 <h2>Tilføj penge til saldo</h2>
                 <h3 className="saldo-display">Saldo: {user.saldo} coins</h3>
                 <button onClick={handleAddSaldo} className="saldo-button">Tilføj 100 coins</button>
@@ -51,6 +52,9 @@ const SaldoPage = () => {
                         {message}
                     </p>
                 )}
+            </div>
+            <div className="saldo-box">
+              <button onClick={logout}>Log ud</button>
             </div>
         </div>
     );

@@ -1,31 +1,44 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
 
 function Navbar() {
-    const { user, logout } = useContext(AuthContext); // 📌 Henter login-status fra global state
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/change-saldo");
+    };
+
+    const signups = () => {
+        navigate("/signup");
+    };
+
+    const logins = () => {
+        navigate("/login");
+    };
+
 
     return (
-        <nav className="navbar">
+        <nav className="navbar fancy-shadow">
             <Link to="/MainPage" className="logo-button">
-                <h1>VegasBlast 🎰</h1>
+                <h1 className="gradient-text">VegasBlast <span className="emoji">🎰</span></h1>
             </Link>
             <ul className="nav-links">
                 {user ? (
-                    // 📌 Hvis brugeren er logget ind, vis brugernavn, saldo + log ud-knap
                     <>
-                        <li>👤 {user.username}</li>
-                        <li>💰 {user.saldo} DKK</li>
-                        <li><Link to="/change-saldo">ChangeSaldo</Link></li>
-                        <li><button onClick={logout} className="logout-btn">Log ud</button></li>
+                        <li className="nav-item">
+                            <button onClick={handleClick} className="button-coins">
+                              {user.saldo}<span className="emoji">💰</span>
+                            </button>
+                        </li>
                     </>
                 ) : (
-                  // 📌 Hvis brugeren ikke er logget ind, vis login-link
-                  <>
-                    <li><Link to="/login">Login</Link></li>
-                    <li><Link to="/signup">Signup</Link></li>
-                  </>
+                    <>
+                        <button onClick={logins}>Login</button>
+                        <button onClick={signups}>Signup</button>
+                    </>
                 )}
             </ul>
         </nav>
