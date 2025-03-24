@@ -9,7 +9,7 @@ function MineBlast() {
 
   const [balance, setBalance] = useState(user?.saldo || 0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [bet, setBet] = useState(100);
+  const [bet, setBet] = useState(1000);
   const [placedBet, setPlacedBet] = useState(null);
   const [gridSize, setGridSize] = useState(5);
   const [bombCount, setBombCount] = useState(3);
@@ -22,11 +22,11 @@ function MineBlast() {
   const navigate = useNavigate();
 
   const goToMineBlast = () => {
-    navigate('/MineBlast');
+    navigate("/MineBlast");
   };
 
   const goToMineBlastlightning = () => {
-    navigate('/MineBlastlightning');
+    navigate("/MineBlastlightning");
   };
 
   // Sync balance with user at login/refresh
@@ -76,11 +76,11 @@ function MineBlast() {
       multiplier = 2;
     }
 
-    if(multiplier < 0.01){
+    if (multiplier < 0.01) {
       multiplier = 0.01;
     }
 
-    multiplier = multiplier.toFixed(2)
+    multiplier = multiplier.toFixed(2);
 
     return multiplier;
   };
@@ -206,91 +206,96 @@ function MineBlast() {
 
   return (
     <div className="MineBlast-container">
-      <div className="left-content">
-        <h1 className="title">MineBlast 💣</h1>
-        <div className="state-container">
-          <button onClick={goToMineBlast} className="state-btn">
-            Classic💣
-          </button>
-          <button onClick={goToMineBlastlightning} className="state-btn">
-            Lightning⚡
-          </button>
-        </div>
-        <p className="balance">
-          Saldo: <span>{balance} 💰</span>
-        </p>
+      <div className="left-container">
+        <div className="left-content">
+          <h1 className="title">MineBlast 💣</h1>
+          <div className="state-container">
+            <button onClick={goToMineBlast} className="state-btn">
+              Classic💣
+            </button>
+            <button onClick={goToMineBlastlightning} className="state-btn">
+              Lightning⚡
+            </button>
+          </div>
+          <p className="balance">
+            Saldo: <span>{balance} 💰</span>
+          </p>
 
-        <div className="setGame">
-          <label>Spil Størrelse</label>
-          <select
-            value={gridSize}
-            onChange={(e) => handleGridSizeChange(parseInt(e.target.value))}
-          >
-            {[3, 4, 5].map((size) => (
-              <option key={size} value={size}>
-                {size}x{size}
-              </option>
-            ))}
-          </select>
+          <div className="setGame">
+            <label>Spil Størrelse</label>
+            <div className="grid-size">
+              <div className="grid-size-buttons">
+                {[3, 4, 5].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => handleGridSizeChange(size)}
+                    className="grid-size-btn"
+                  >
+                    {size}x{size}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-          <label>Antal Miner</label>
-          <select
-            value={bombCount}
-            onChange={(e) =>
-              !gameStarted && setBombCount(parseInt(e.target.value))
-            }
-          >
-            {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
-              <option key={num + 1} value={num + 1}>
-                {num + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="inputStart">
-          {!gameStarted ? (
-            <>
-              <label>Indsats</label>
-              <input
-                type="number"
-                value={bet}
-                onChange={(e) => setBet(Number(e.target.value))}
-                placeholder="Indsats"
-              />
-              <button onClick={startGame} className="start-btn">
-                Start spil
-              </button>
-            </>
-          ) : (
-            <p className="placedBet">
-              Gevinst: <span>{placedBet + currentWinnings} 💰</span>
+            <label>Antal Miner</label>
+            <select
+              value={bombCount}
+              onChange={(e) =>
+                !gameStarted && setBombCount(parseInt(e.target.value))
+              }
+            >
+              {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
+                <option key={num + 1} value={num + 1}>
+                  {num + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="inputStart">
+            {!gameStarted ? (
+              <>
+                <label>Indsats</label>
+                <input
+                  type="number"
+                  value={bet}
+                  onChange={(e) => setBet(Number(e.target.value))}
+                  placeholder="Indsats"
+                />
+                <button onClick={startGame} className="start-btn">
+                  Start spil
+                </button>
+              </>
+            ) : (
+              <p className="placedBet">
+                Gevinst: <span>{placedBet + currentWinnings} 💰</span>
+              </p>
+            )}
+          </div>
+          {gameOver && (
+            <p className="game-over">
+              Spillet er slut! Tryk på start for at prøve igen.
             </p>
           )}
+
+          {gameStarted && !gameOver && (
+            <button onClick={handleWin} className="withdraw-btn">
+              Træk dig og tag din gevinst
+            </button>
+          )}
+
+          {gameOver && (
+            <button
+              onClick={() => {
+                setGameStarted(false);
+                setGameOver(false);
+                setPlacedBet(null);
+              }}
+              className="restart-btn"
+            >
+              Start nyt spil
+            </button>
+          )}
         </div>
-        {gameOver && (
-          <p className="game-over">
-            Spillet er slut! Tryk på start for at prøve igen.
-          </p>
-        )}
-
-        {gameStarted && !gameOver && (
-          <button onClick={handleWin} className="withdraw-btn">
-            Træk dig og tag din gevinst
-          </button>
-        )}
-
-        {gameOver && (
-          <button
-            onClick={() => {
-              setGameStarted(false);
-              setGameOver(false);
-              setPlacedBet(null);
-            }}
-            className="restart-btn"
-          >
-            Start nyt spil
-          </button>
-        )}
       </div>
 
       <div className="grid-container">
@@ -302,7 +307,9 @@ function MineBlast() {
             row.map((cell, colIndex) => (
               <button
                 key={`${rowIndex}-${colIndex}`}
-                onClick={() => gameStarted && handleCellClick(rowIndex, colIndex)}
+                onClick={() =>
+                  gameStarted && handleCellClick(rowIndex, colIndex)
+                }
                 disabled={!gameStarted || gameOver}
                 className={
                   cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
