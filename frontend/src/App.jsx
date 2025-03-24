@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.jsx"; // 📌 Importér AuthProvider
 import Navbar from "./components/Navbar";
 import AppRouter from "./router";
+import MainPage from "./pages/MainPage.jsx";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Router>
         <Navbar />
         <AppRouter />
+        <MainPage />
       </Router>
     </AuthProvider>
   );
