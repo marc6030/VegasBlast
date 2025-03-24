@@ -143,7 +143,7 @@ function MineBlast() {
     const index = row * gridSize + col;
 
     if (bombs.includes(index)) {
-      revealGrid();
+      handleLoss();
       return;
     }
 
