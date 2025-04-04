@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/MineBlast.css";
+import MineBlastGame from "../assets/MineBlastGame.png";
+
 
 function MineBlast() {
   const { user, updateSaldo } = useContext(AuthContext);
@@ -208,8 +210,10 @@ function MineBlast() {
     <div className="MineBlast-container">
       <div className="left-container">
         <div className="left-content">
-          <h1 className="title">MineBlast 💣</h1>
-          <div className="state-container">
+          <div className="mineblast-logo">
+        <img src={MineBlastGame} alt="gameLogo" />
+        </div>
+        <div className="state-container">
             <button onClick={goToMineBlast} className="state-btn">
               Classic💣
             </button>

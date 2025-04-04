@@ -302,3 +302,15 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.mineblast-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Make it span the full width */
+}
+
+.mineblast-logo img {
+  width: 10vw;
+  height: auto;
+  object-fit: contain;
+}
