@@ -24,8 +24,8 @@
 }
 
 .image-container {
-    width: 60vw;
-    max-width: 80%;
+    width: 50vw;
+    max-width: 40%;
     border: 2px solid #ff8000;
     display: flex;
     align-items: center;
@@ -36,11 +36,11 @@
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: soft-pulse 1.5s infinite ease-in-out;
+    animation: soft-pulse 3s infinite ease-in-out;
 }
 
 .image-container:hover {
-    animation: soft-pulse 1s infinite ease-in-out;
+    animation: soft-pulse 2s infinite ease-in-out;
 }
 
 .image-container img {
@@ -49,3 +49,14 @@
     border-radius: 10px;
     transition: transform 0.3s ease;
 }
+
+.image-row {
+    display: flex;
+    flex-direction: row;
+    gap: 40px; /* space between games */
+    flex-wrap: wrap; /* ensures responsiveness on smaller screens */
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  

@@ -1,16 +1,26 @@
 import React from "react";
-import MineBlastPic from "../assets/MineBlastPic.png";
+import MineBlast from "../assets/MineBlast.png";
 import { Link } from "react-router-dom";
-import "../styles/MainPage.css"; 
+import "../styles/MainPage.css";
 
 function MainPage() {
   return (
     <div className="main-container">
-      <h1 className="main-title">MineBlast 💣</h1>
-      <div className="image-container">
       <Link to="/MineBlast" className="Pic-button">
-        <img src={MineBlastPic} alt="MineBlast Preview" />
-        </Link>
+        <h1 className="main-title">Click for at spil MineBlast 💣!!</h1>
+      </Link>
+
+      <div className="image-row">
+        <div className="image-container">
+          <Link to="/MineBlast" className="Pic-button">
+            <img src={MineBlast} alt="MineBlast Preview" />
+          </Link>
+        </div>
+        <div className="image-container">
+          <Link to="/MineBlastLightning" className="Pic-button">
+            <img src={MineBlast} alt="MineBlast Preview" />
+          </Link>
+        </div>
       </div>
     </div>
   );
