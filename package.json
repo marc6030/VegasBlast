@@ -4,7 +4,7 @@
   "scripts": {
     "build-frontend": "cd frontend && npm run build",
     "start-backend": "cd backend && node server.js",
-    "bs": "npm run build-frontend && npm run start-backend"
+    "server": "npm run build-frontend && npm run start-backend"
   },
   "dependencies": {
     "mysql2": "^3.13.0"
