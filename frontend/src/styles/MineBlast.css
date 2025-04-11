@@ -53,7 +53,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   align-items: center;
   justify-content: center;
-  
+
 }
 
 /* Titles & Text */
@@ -134,13 +134,18 @@ button {
 }
 
 /* Button Variations */
-.start-btn {
+.grid .start-btn {
+  height: 80px;
+  width: 240px;
+  aspect-ratio: 0;
+  font-size: 32px;
+  font-weight: bold;
+  object-fit: contain;
   background: linear-gradient(135deg, #ff3c00, #ff7300);
   color: white;
-  margin-top: 12px;
 }
 
-.start-btn:hover {
+.grid .start-btn:hover {
   background: linear-gradient(135deg, #ff5c00, #ff9000);
 }
 
@@ -313,4 +318,37 @@ button {
   width: 10vw;
   height: auto;
   object-fit: contain;
+}
+
+.overlay {
+  margin: -8px;
+  position: absolute;
+  height: 95%;
+  aspect-ratio: 1;
+  max-width: 100%;
+  max-height: 90%;
+  backdrop-filter: blur(2px); /* Slør baggrunden */
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  align-items: center;
+  z-index: 9999;
+}
+
+.overlay-btn {
+  width: auto;
+  padding: 20px 40px;
+  font-size: 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff3c00, #ff7300);
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.overlay-btn:hover {
+  background: linear-gradient(135deg, #ff5c00, #ff9000);
+  transform: scale(1.05);
 }

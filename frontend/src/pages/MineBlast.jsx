@@ -255,6 +255,7 @@ function MineBlast() {
               ))}
             </select>
           </div>
+
           <div className="inputStart">
             {!gameStarted ? (
               <>
@@ -265,9 +266,6 @@ function MineBlast() {
                   onChange={(e) => setBet(Number(e.target.value))}
                   placeholder="Indsats"
                 />
-                <button onClick={startGame} className="start-btn">
-                  Start spil
-                </button>
               </>
             ) : (
               <p className="placedBet">
@@ -307,6 +305,13 @@ function MineBlast() {
           className="grid"
           style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
         >
+        {!gameStarted && (
+          <div className="overlay">
+            <button onClick={startGame} className="start-btn">
+              Start
+            </button>
+          </div>
+        )}
           {grid.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
               <button
