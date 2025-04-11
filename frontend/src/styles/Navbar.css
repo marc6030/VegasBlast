@@ -75,3 +75,25 @@
   width: auto;
   object-fit: contain;
 }
+
+
+.game-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #333; /* or your preferred color */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  height: 40px;
+}
+
+.navbarMineblast-logo img {
+  width: fit-content; /* Adjust size as needed */
+  height: fit-content;
+  max-height: 3vh;
+  object-fit: contain;
+}

@@ -3,6 +3,10 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
 import Logo from "../assets/Logo.png";
+import MineBlastGame from "../assets/MineBlastGame.png";
+import Lightning from "../assets/Lightning.png";
+
+
 
 function Navbar() {
   const { user } = useContext(AuthContext);
@@ -20,6 +24,13 @@ function Navbar() {
     navigate("/login");
   };
 
+  const game1 = () => {
+    navigate("/MineBlast");
+  };
+  const game2 = () => {
+    navigate("/MineBlastLightning");
+  };
+
   return (
     <nav className="navbar fancy-shadow">
       <div className="logo-container">
@@ -30,12 +41,24 @@ function Navbar() {
       <ul className="nav-links">
         {user ? (
           <>
-            <li className="nav-item">
-              <button onClick={handleClick} className="button-coins">
-                {user.saldo}
-                <span className="emoji">💰</span>
-              </button>
-            </li>
+            <button onClick={game1} className="game-button">
+              <span className="MineBlast">MineBlast</span>
+              <div className="navbarMineblast-logo">
+                <img src={MineBlastGame} alt="gameLogo" />
+              </div>
+            </button>
+
+            <button onClick={game2} className="game-button">
+              <span className="MineBlast Lightning">MineBlast Lightning</span>
+              <div className="navbarMineblast-logo">
+                <img src={Lightning} alt="gameLogo" />
+              </div>
+            </button>
+
+            <button onClick={handleClick} className="button-coins">
+              {user.saldo}
+              <span className="emoji">💰</span>
+            </button>
           </>
         ) : (
           <>
