@@ -312,6 +312,7 @@ button {
   justify-content: center;
   align-items: center;
   width: 100%; /* Make it span the full width */
+  margin-top: -12px;
 }
 
 .mineblast-logo img {
