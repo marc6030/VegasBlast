@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/MineBlast.css";
+import "../styles/MineBlastLightning.css";
 import Lightning from "../assets/Lightning.png";
 
 
-function MineBlast() {
+function MineBlastLightning() {
   const { user, updateSaldo } = useContext(AuthContext);
   const userId = user?.id;
 
   const [balance, setBalance] = useState(user?.saldo || 0);
   const [gameStarted, setGameStarted] = useState(false);
-  const [bet, setBet] = useState(100);
+  const [bet, setBet] = useState(1000);
   const [placedBet, setPlacedBet] = useState(null);
   const [gridSize, setGridSize] = useState(5);
   const [bombCount, setBombCount] = useState(3);
@@ -217,33 +217,33 @@ function MineBlast() {
   if (!user) return <Navigate to="/login" />;
 
   return (
-    <div className="MineBlast-container">
-      <div className="left-container">
-        <div className="left-content">
-        <div className="mineblast-logo">
-        <img src={Lightning} alt="gameLogo" />
-        </div>          
-        <div className="state-container">
-            <button onClick={goToMineBlast} className="state-btn">
+    <div className="MineBlast-container-L">
+      <div className="left-container-L">
+        <div className="left-content-L">
+          <div className="mineblast-logo">
+            <img src={Lightning} alt="gameLogo" />
+          </div>
+          <div className="state-container-L">
+            <button onClick={goToMineBlast} className="state-btn-L">
               Classic💣
             </button>
-            <button onClick={goToMineBlastLightning} className="state-btn">
+            <button onClick={goToMineBlastLightning} className="state-btn-L">
               Lightning⚡
             </button>
           </div>
-          <p className="balance">
+          <p className="balance-L">
             Saldo: <span>{balance} 💰</span>
           </p>
 
-          <div className="setGame">
+          <div className="setGame-L">
             <label>Spil Størrelse</label>
-            <div className="grid-size">
-              <div className="grid-size-buttons">
+            <div className="grid-size-L">
+              <div className="grid-size-buttons-L">
                 {[3, 4, 5].map((size) => (
                   <button
                     key={size}
                     onClick={() => handleGridSizeChange(size)}
-                    className="grid-size-btn"
+                    className="grid-size-btn-L"
                   >
                     {size}x{size}
                   </button>
@@ -254,9 +254,7 @@ function MineBlast() {
             <label>Antal Miner</label>
             <select
               value={bombCount}
-              onChange={(e) =>
-                !gameStarted && setBombCount(parseInt(e.target.value))
-              }
+              onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}
             >
               {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
                 <option key={num + 1} value={num + 1}>
@@ -266,7 +264,7 @@ function MineBlast() {
             </select>
           </div>
 
-          <div className="inputStart">
+          <div className="inputStart-L">
             {!gameStarted ? (
               <>
                 <label>Indsats</label>
@@ -274,76 +272,72 @@ function MineBlast() {
                   type="number"
                   value={bet}
                   onChange={(e) => setBet(Number(e.target.value))}
-                  placeholder="Indsats"
-                />
+                  placeholder="Indsats" />
               </>
             ) : (
-              <p className="placedBet">
+              <p className="placedBet-L">
                 Gevinst: <span>{placedBet + currentWinnings} 💰</span>
               </p>
             )}
           </div>
 
           {gameOver && (
-            <p className="game-over">
+            <p className="game-over-L">
               Spillet er slut! Tryk på start for at prøve igen.
             </p>
           )}
 
           {gameStarted && !gameOver && (
-            <button onClick={handleWin} className="withdraw-btn">
+            <button onClick={handleWin} className="withdraw-btn-L">
               Træk dig og tag din gevinst
             </button>
           )}
 
-          {gameOver && (
-            <button
-              onClick={() => {
-                setGameStarted(false);
-                setGameOver(false);
-                setPlacedBet(null);
-              }}
-              className="restart-btn"
-            >
-              Start nyt spil
-            </button>
-          )}
         </div>
       </div>
 
-      <div className="grid-container">
+      <div className="grid-container-L">
         <div
-          className="grid"
+          className="grid-L"
           style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
         >
-        {!gameStarted && (
-          <div className="overlay">
-            <button onClick={startGame} className="start-btn">
-              Start
-            </button>
-          </div>
-        )}
-          {grid.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                onClick={() =>
-                  gameStarted && handleCellClick(rowIndex, colIndex)
-                }
-                disabled={!gameStarted || gameOver}
-                className={
-                  cell === "💣"
-                    ? "bomb"
-                    : cell.includes("x5🔥")
-                    ? "x5"
-                    : cell.includes("x")
-                    ? "safe"
-                    : ""
-                }
-              >
-                {cell}
+          {!gameStarted && (
+            <div className="overlay-L">
+              <button onClick={startGame} className="start-btn-L">
+                Start
               </button>
-            ))
+            </div>
+          )}
+          {gameOver && (
+            <div className="overlay-L">
+              <button
+                onClick={() => {
+                  setGameStarted(false);
+                  setGameOver(false);
+                  setPlacedBet(null);
+                } }
+                className="restart-btn-L"
+              >
+                Start nyt spil
+              </button>
+            </div>
+          )}
+          {grid.map((row, rowIndex) => row.map((cell, colIndex) => (
+            <button
+              key={`${rowIndex}-${colIndex}`}
+              onClick={() => gameStarted && handleCellClick(rowIndex, colIndex)}
+              disabled={!gameStarted || gameOver}
+              className={cell === "💣"
+                ? "bomb"
+                : cell.includes("x5🔥")
+                  ? "x5"
+                  : cell.includes("x")
+                    ? "safe"
+                    : ""}
+            >
+              {cell}
+            </button>
+          ))
           )}
         </div>
       </div>
@@ -351,4 +345,4 @@ function MineBlast() {
   );
 }
 
-export default MineBlast;
+export default MineBlastLightning;

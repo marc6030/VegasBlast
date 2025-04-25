@@ -39,15 +39,24 @@ a:hover {
   color: #1924ff;
 }
 
+html{
+  min-height: 100%;
+}
+
+
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
   padding: 0;
-  height: 100%;
+  min-height: 100vh;
+  min-width: 100vw;
   width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
+  z-index: -1;
+  background-size: cover; /* Ensures the gradient covers the entire viewport */
+  background-position: center center; /* Centers the gradient */
+  overflow:hidden;
 }
 
 h1 {
