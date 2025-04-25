@@ -1,5 +1,5 @@
 import React from "react";
-import MineBlast from "../assets/MineBlastThumb.png";
+import MineBlast from "../assets/BlastThumb.png";
 import Lightning from "../assets/LightningThumb.png";
 import { Link } from "react-router-dom";
 import "../styles/MainPage.css";
