@@ -4,7 +4,6 @@ import { AuthContext } from "../context/AuthContext";
 import "../styles/MineBlast.css";
 import MineBlastGame from "../assets/MineBlastGame.png";
 
-
 function MineBlast() {
   const { user, updateSaldo } = useContext(AuthContext);
   const userId = user?.id;
@@ -211,9 +210,9 @@ function MineBlast() {
       <div className="left-container">
         <div className="left-content">
           <div className="mineblast-logo">
-        <img src={MineBlastGame} alt="gameLogo" />
-        </div>
-        <div className="state-container">
+            <img src={MineBlastGame} alt="gameLogo" />
+          </div>
+          <div className="state-container">
             <button onClick={goToMineBlast} className="state-btn">
               Classic💣
             </button>
@@ -244,9 +243,7 @@ function MineBlast() {
             <label>Antal Miner</label>
             <select
               value={bombCount}
-              onChange={(e) =>
-                !gameStarted && setBombCount(parseInt(e.target.value))
-              }
+              onChange={(e) => !gameStarted && setBombCount(parseInt(e.target.value))}
             >
               {[...Array(gridSize * gridSize - 1).keys()].map((num) => (
                 <option key={num + 1} value={num + 1}>
@@ -264,8 +261,7 @@ function MineBlast() {
                   type="number"
                   value={bet}
                   onChange={(e) => setBet(Number(e.target.value))}
-                  placeholder="Indsats"
-                />
+                  placeholder="Indsats" />
               </>
             ) : (
               <p className="placedBet">
@@ -284,19 +280,6 @@ function MineBlast() {
               Træk dig og tag din gevinst
             </button>
           )}
-
-          {gameOver && (
-            <button
-              onClick={() => {
-                setGameStarted(false);
-                setGameOver(false);
-                setPlacedBet(null);
-              }}
-              className="restart-btn"
-            >
-              Start nyt spil
-            </button>
-          )}
         </div>
       </div>
 
@@ -305,28 +288,37 @@ function MineBlast() {
           className="grid"
           style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
         >
-        {!gameStarted && (
-          <div className="overlay">
-            <button onClick={startGame} className="start-btn">
-              Start
-            </button>
-          </div>
-        )}
-          {grid.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                onClick={() =>
-                  gameStarted && handleCellClick(rowIndex, colIndex)
-                }
-                disabled={!gameStarted || gameOver}
-                className={
-                  cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""
-                }
-              >
-                {cell}
+          {!gameStarted && (
+            <div className="overlay">
+              <button onClick={startGame} className="start-btn">
+                Start
               </button>
-            ))
+            </div>
+          )}
+          {gameOver && (
+            <div className="overlay">
+              <button
+                onClick={() => {
+                  setGameStarted(false);
+                  setGameOver(false);
+                  setPlacedBet(null);
+                } }
+                className="restart-btn"
+              >
+                Start nyt spil
+              </button>
+            </div>
+          )}
+          {grid.map((row, rowIndex) => row.map((cell, colIndex) => (
+            <button
+              key={`${rowIndex}-${colIndex}`}
+              onClick={() => gameStarted && handleCellClick(rowIndex, colIndex)}
+              disabled={!gameStarted || gameOver}
+              className={cell === "💣" ? "bomb" : cell.includes("x") ? "safe" : ""}
+            >
+              {cell}
+            </button>
+          ))
           )}
         </div>
       </div>

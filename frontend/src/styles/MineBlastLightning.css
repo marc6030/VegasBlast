@@ -1,0 +1,372 @@
+
+/* General Layout */
+.MineBlast-container-L {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100vw;
+    height: 90vh;
+    padding: 20px;
+    margin: 10vh auto 0;
+    background: radial-gradient(circle at 0% 0%, #ff4500, #ff0000);
+}
+.left-container-L {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 50%;
+}
+
+.state-container-L {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    gap: 30px;
+}
+
+.state-btn-L {
+    max-height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #ff4500, tomato);
+}
+.state-btn-L:hover {
+    background: radial-gradient(circle at 0% 0%, rgb(255, 69, 0), red);
+}
+/* Left Content Panel */
+.left-content-L {
+    width: 80%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 90%;
+    padding: 24px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    align-items: center;
+    justify-content: center;
+}
+
+/* Titles & Text */
+h1 {
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    background: linear-gradient(90deg, #ff4500, #ff6347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+}
+
+p {
+    font-size: 16px;
+    color: #e5e5e5;
+}
+
+.balance-L, .winnings-L, .placedBet-L {
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
+.balance-L span, .winnings-L span, .placedBet-L span {
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+/* Input & Selection */
+.setGame-L, .inputStart-L  {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.setGame-L, .inputStart-L label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+select, input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+select:hover, input:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Button Variations */
+.grid-L .start-btn-L {
+    height: 80px;
+    width: 240px;
+    aspect-ratio: 0;
+    font-size: 32px;
+    font-weight: bold;
+    object-fit: contain;
+    background: linear-gradient(135deg, #32cd32, #00ff00);
+    color: white;
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.grid-L .start-btn-L:hover {
+    background: linear-gradient(135deg, #00ff00, #32cd32);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 1);
+    transform: scale(1.05); /* Optional: adds a subtle zoom effect */
+}
+
+.grid-L .restart-btn-L{
+    height: 80px;
+    width: 500px;
+    font-size: 32px;
+    font-weight: bold;
+    object-fit: contain;
+    background: linear-gradient(135deg, #0094ff, #006cff);
+    box-shadow: 0 0 5px rgb(0, 51, 255), 0 0 40px rgb(0, 132, 255);
+    color: white;
+  }
+  .grid-L .restart-btn-L:hover{
+    background: linear-gradient(135deg, #00b0ff, #007bff);
+    box-shadow: 0 0 10px rgb(0, 51, 255), 0 0 40px rgb(0, 132, 255);
+  }
+
+.withdraw-btn-L {
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    color: white;
+}
+
+.withdraw-btn-L:hover {
+    background: linear-gradient(135deg, #ff69b4, #ff00ff);
+}
+
+/* Grid Layout */
+.grid-container-L {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 50%;
+}
+
+.grid-container-L::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.grid-L {
+    display: grid;
+    height: 95%;
+    max-width: 100%;
+    max-height: 90%;
+    padding: 8px;
+    gap: 8px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-L button {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle at 0% 0%, #ff4500, #ff0000);
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    font-size: min(4vw, 32px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-L button.safe {
+    background: radial-gradient(circle, #00ff00, #32cd32);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 1.5rem;
+}
+
+.grid-L button.x5 {
+    background: radial-gradient(circle, #ffd700, #ff8c00);
+}
+
+.grid-L button.x5:hover {
+    background: radial-gradient(circle, #ff8c00, #ffd700);
+}
+
+/* Grid Button States */
+.grid-L button:hover {
+    background: radial-gradient(circle at 0% 0%, #ff4500, #ff6347);
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+.grid-L button:active {
+    background: radial-gradient(circle, #ff6347, #ff4500);
+    transform: scale(0.97);
+}
+
+.grid-L button.bomb {
+    background: radial-gradient(circle, #ff0000, #ff4500);
+}
+
+.grid-L button.safe {
+    background: radial-gradient(circle, #00ff00, #32cd32);
+}
+
+.setGame-L {
+    margin-bottom: auto;
+}
+
+.inputStart-L {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}
+
+.game-over-L {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.game-won-L {
+    font-size: 18px;
+    font-weight: bold;
+    color: #32cd32;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.grid-size-L {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.grid-size-buttons-L {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+    background: linear-gradient(135deg, #ff4500, tomato);
+}
+
+.grid-size-btn-L {
+    display: flex;
+    max-height: fit-content;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background: linear-gradient(135deg, #ff4500, tomato);
+}
+.grid-size-btn-L:hover{
+    background: radial-gradient(circle at 0% 0%, rgb(255, 69, 0), red);
+}
+
+.mineblast-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: -12px;
+}
+
+.mineblast-logo img {
+    width: 10vw;
+    height: auto;
+    object-fit: contain;
+}
+
+.overlay-L {
+    margin: -8px;
+    position: absolute;
+    height: 95%;
+    aspect-ratio: 1;
+    max-width: 100%;
+    max-height: 90%;
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+    z-index: 9999;
+}
+
+.overlay-btn-L {
+    width: auto;
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff4500, #ff6347);
+    color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.overlay-btn-L:hover {
+    background: linear-gradient(135deg, #ff6347, #ff7f50);
+    transform: scale(1.05);
+}

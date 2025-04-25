@@ -1,5 +1,6 @@
 import React from "react";
-import MineBlast from "../assets/MineBlast.png";
+import MineBlast from "../assets/MineBlastThumb.png";
+import Lightning from "../assets/LightningThumb.png";
 import { Link } from "react-router-dom";
 import "../styles/MainPage.css";
 
@@ -18,7 +19,7 @@ function MainPage() {
         </div>
         <div className="image-container">
           <Link to="/MineBlastLightning" className="Pic-button">
-            <img src={MineBlast} alt="MineBlast Preview" />
+            <img src={Lightning} alt="MineBlast Preview" />
           </Link>
         </div>
       </div>

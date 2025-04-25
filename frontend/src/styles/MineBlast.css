@@ -8,8 +8,8 @@
   padding: 20px;
   margin: 10vh auto 0;
   background: radial-gradient(circle at 0% 0%, #6b0092, #c236fd);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
+
 .left-container {
   flex: 1;
   height: 100%;
@@ -73,7 +73,7 @@ p {
 }
 
 .balance, .winnings, .placedBet {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
   color: #fff;
   display: flex;
@@ -141,12 +141,31 @@ button {
   font-size: 32px;
   font-weight: bold;
   object-fit: contain;
-  background: linear-gradient(135deg, #ff3c00, #ff7300);
+  background: linear-gradient(135deg, #32cd32, #00ff00);
   color: white;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.8);
+  transition: all 0.3s ease;
 }
 
 .grid .start-btn:hover {
-  background: linear-gradient(135deg, #ff5c00, #ff9000);
+  background: linear-gradient(135deg, #00ff00, #32cd32);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 1);
+  transform: scale(1.05); /* Optional: adds a subtle zoom effect */
+}
+
+.grid .restart-btn{
+  height: 80px;
+  width: 500px;
+  font-size: 32px;
+  font-weight: bold;
+  object-fit: contain;
+  background: linear-gradient(135deg, #0094ff, #006cff);
+  box-shadow: 0 0 5px rgb(0, 51, 255), 0 0 40px rgb(0, 132, 255);
+  color: white;
+}
+.grid .restart-btn:hover{
+  background: linear-gradient(135deg, #00b0ff, #007bff);
+  box-shadow: 0 0 10px rgb(0, 51, 255), 0 0 40px rgb(0, 132, 255);
 }
 
 .withdraw-btn {
@@ -158,14 +177,6 @@ button {
   background: linear-gradient(135deg, #00ffa3, #00e676);
 }
 
-.restart-btn {
-  background: linear-gradient(135deg, #0094ff, #006cff);
-  color: white;
-}
-
-.restart-btn:hover {
-  background: linear-gradient(135deg, #00b0ff, #007bff);
-}
 
 /* Grid Layout */
 .grid-container {
@@ -264,7 +275,7 @@ button {
 .game-over {
   font-size: 18px;
   font-weight: bold;
-  color: #ff3c00;
+  color: #ffffff;
   text-align: center;
   margin-bottom: 16px;
 }
