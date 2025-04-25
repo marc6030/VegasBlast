@@ -220,7 +220,7 @@ function MineBlastLightning() {
     <div className="MineBlast-container-L">
       <div className="left-container-L">
         <div className="left-content-L">
-          <div className="mineblast-logo">
+          <div className="mineblast-logo-L">
             <img src={Lightning} alt="gameLogo" />
           </div>
           <div className="state-container-L">

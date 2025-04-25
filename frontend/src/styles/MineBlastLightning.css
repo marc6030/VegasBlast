@@ -328,7 +328,7 @@ button {
     background: radial-gradient(circle at 0% 0%, rgb(255, 69, 0), red);
 }
 
-.mineblast-logo {
+.mineblast-logo-L {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -336,8 +336,8 @@ button {
     margin-top: -12px;
 }
 
-.mineblast-logo img {
-    width: 10vw;
+.mineblast-logo-L img {
+    width: 8vw;
     height: auto;
     object-fit: contain;
 }
