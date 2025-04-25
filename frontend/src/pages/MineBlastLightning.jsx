@@ -280,13 +280,6 @@ function MineBlastLightning() {
               </p>
             )}
           </div>
-
-          {gameOver && (
-            <p className="game-over-L">
-              Spillet er slut! Tryk på start for at prøve igen.
-            </p>
-          )}
-
           {gameStarted && !gameOver && (
             <button onClick={handleWin} className="withdraw-btn-L">
               Træk dig og tag din gevinst

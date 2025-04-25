@@ -88,8 +88,9 @@
   border-radius: 8px;
   cursor: pointer;
   color: white;
-  font-weight: bold;
+  font-weight: 800;
   height: 40px;
+
 }
 
 .navbarMineblast-logo img {

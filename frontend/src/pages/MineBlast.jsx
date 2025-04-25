@@ -269,12 +269,6 @@ function MineBlast() {
               </p>
             )}
           </div>
-          {gameOver && (
-            <p className="game-over">
-              Spillet er slut! Tryk på start for at prøve igen.
-            </p>
-          )}
-
           {gameStarted && !gameOver && (
             <button onClick={handleWin} className="withdraw-btn">
               Træk dig og tag din gevinst
