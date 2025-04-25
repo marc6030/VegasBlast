@@ -49,7 +49,7 @@ function Navbar() {
             </button>
 
             <button onClick={game2} className="game-button">
-              <span className="MineBlast Lightning">MineBlast Lightning</span>
+              <span className="MineBlast Lightning">Lightning</span>
               <div className="navbarMineblast-logo">
                 <img src={Lightning} alt="gameLogo" />
               </div>
