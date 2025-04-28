@@ -132,15 +132,15 @@ function MineBlastLightning() {
     setX5Cell(randomX5);
   };
 
+  const handleLoss = () => {
+    revealGrid();
+    syncSaldo(balance); // Lost, balance already deducted
+  };
+
   const handleWin = () => {
     const newSaldo = balance + currentWinnings + placedBet;
     syncSaldo(newSaldo);
     revealGrid();
-  };
-
-  const handleLoss = () => {
-    revealGrid();
-    syncSaldo(balance); // Lost, balance already deducted
   };
 
   const handleCellClick = (row, col) => {
@@ -149,7 +149,7 @@ function MineBlastLightning() {
     const index = row * gridSize + col;
 
     if (bombs.includes(index)) {
-      revealGrid();
+      handleLoss();
       return;
     }
 
