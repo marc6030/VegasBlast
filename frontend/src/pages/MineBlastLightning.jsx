@@ -138,6 +138,11 @@ function MineBlastLightning() {
     revealGrid();
   };
 
+  const handleLoss = () => {
+    revealGrid();
+    syncSaldo(balance); // Lost, balance already deducted
+  };
+
   const handleCellClick = (row, col) => {
     if (gameOver || clickedCells.has(row * gridSize + col)) return;
 
