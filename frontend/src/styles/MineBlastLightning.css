@@ -337,7 +337,8 @@ button {
 }
 
 .mineblast-logo-L img {
-    width: 8vw;
+    width: 6vw;
+    max-width: 10vh;
     height: auto;
     object-fit: contain;
 }
