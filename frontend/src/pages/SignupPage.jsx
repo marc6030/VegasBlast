@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 import "../styles/SignupPage.css";
 
 const SignupPage = () => {
@@ -9,7 +9,6 @@ const SignupPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const { user, login, logout } = useContext(AuthContext);
-    const navigate = useNavigate();
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -26,7 +25,7 @@ const SignupPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate("/login"); // <-- skifter til login-side
+                login(data.user);
             } else {
                 setErrorMessage(data.error || "❌ Fejl ved oprettelse af bruger!");
             }
@@ -35,6 +34,7 @@ const SignupPage = () => {
             console.error("Signup-fejl:", error);
         }
     };
+    if (user) return <Navigate to="/MineBlast" />;
 
     return (
         <div className="signup-container">
