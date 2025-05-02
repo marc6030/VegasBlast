@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom"; // ✅ fixed import
 import { AuthContext } from "../context/AuthContext";
 import "../styles/LoginPage.css";
 
@@ -8,6 +8,11 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const { user, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate(); // ✅ properly used
+
+    const signups = () => {
+        navigate("/signup"); // ✅ navigate to signup page
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -22,7 +27,7 @@ const LoginPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                login(data.user);
+                login(data.user); // ✅ save user in context
             } else {
                 setErrorMessage(data.error || "❌ Forkert brugernavn eller kodeord!");
             }
@@ -31,7 +36,9 @@ const LoginPage = () => {
             console.error("Login-fejl:", error);
         }
     };
-    if (user) return <Navigate to="/MineBlast" />;
+
+    if (user) return <Navigate to="/MineBlast" />; // ✅ auto-redirect if already logged in
+
     return (
         <div className="login-container">
             {user ? (
@@ -58,6 +65,8 @@ const LoginPage = () => {
                             required
                         />
                         <button type="submit" className="apple-button">Log ind</button>
+                        <span> or </span>
+                        <button type="button" onClick={signups} className="goToSignUp">Sign Up</button>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                     </form>
                 </div>
