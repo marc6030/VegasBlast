@@ -27,7 +27,7 @@ router.post("/signup", async (req, res) => {
     const result = await signupUser(username, password);
 
     if (result.success) {
-        res.json({ message: "Bruger oprettet succesfuldt!" });
+        res.json({ message: "Bruger oprettet succesfuldt!", user: result.user });
     } else {
         res.status(400).json({ error: result.error });
     }

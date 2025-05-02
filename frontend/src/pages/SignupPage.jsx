@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/SignupPage.css";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
     const [username, setUsername] = useState("");
@@ -8,6 +9,8 @@ const SignupPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const { user, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -24,7 +27,8 @@ const SignupPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccessMessage("✅ Bruger oprettet succesfuldt! Log ind nu.");
+                login(data.user);
+                navigate("/MineBlast");
             } else {
                 setErrorMessage(data.error || "❌ Fejl ved oprettelse af bruger!");
             }
