@@ -15,38 +15,22 @@ const SignupPage = () => {
         setSuccessMessage("");
 
         try {
-            // 1. First make the signup request
-            const signupResponse = await fetch("http://130.225.170.52:10171/api/signup", {
+            const response = await fetch("http://130.225.170.52:10171/api/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
             });
 
-            const signupData = await signupResponse.json();
+            const data = await response.json();
 
-            if (!signupResponse.ok) {
-                setErrorMessage(signupData.error || "❌ Fejl ved oprettelse af bruger!");
-                return;
-            }
-
-            // 2. If signup successful, automatically log in
-            const loginResponse = await fetch("http://130.225.170.52:10171/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const loginData = await loginResponse.json();
-
-            if (loginResponse.ok) {
-                login(loginData.user); // Update AuthContext with the logged-in user
-                setSuccessMessage("✅ Bruger oprettet og logget ind!");
+            if (response.ok) {
+                setSuccessMessage("✅ Bruger oprettet succesfuldt! Log ind nu.");
             } else {
-                setErrorMessage(loginData.error || "❌ Auto-login fejlede, log venligst ind manuelt");
+                setErrorMessage(data.error || "❌ Fejl ved oprettelse af bruger!");
             }
         } catch (error) {
             setErrorMessage("❌ Serverfejl, prøv igen senere!");
-            console.error("Signup/Login fejl:", error);
+            console.error("Signup-fejl:", error);
         }
     };
 
