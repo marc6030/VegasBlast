@@ -28,6 +28,7 @@ const SignupPage = () => {
 
             if (response.ok) {
                 login(data.user);
+                navigate("/MineBlast");
             } else {
                 setErrorMessage(data.error || "❌ Fejl ved oprettelse af bruger!");
             }
@@ -36,7 +37,6 @@ const SignupPage = () => {
             console.error("Signup-fejl:", error);
         }
     };
-    if (user) return <Navigate to="/MineBlast" />;
 
     return (
         <div className="signup-container">
