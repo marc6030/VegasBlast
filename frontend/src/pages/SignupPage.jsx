@@ -27,9 +27,7 @@ const SignupPage = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate("/login");
-                setSuccessMessage("✅ Bruger oprettet succesfuldt! Log ind nu.");
-
+                login(data.user);
             } else {
                 setErrorMessage(data.error || "❌ Fejl ved oprettelse af bruger!");
             }
