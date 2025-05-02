@@ -36,6 +36,7 @@ const SignupPage = () => {
             console.error("Signup-fejl:", error);
         }
     };
+    if (user) return <Navigate to="/MineBlast" />;
 
     return (
         <div className="signup-container">
