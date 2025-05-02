@@ -24,7 +24,14 @@ const signupUser = async (username, password) => {
         await connection.execute(insertQuery, [username, hashedPassword, 0]);
 
         console.log(`✅ Bruger oprettet: ${username}`);
-        return { success: true, message: "Bruger oprettet succesfuldt!" };
+        return { success: true, message: "Bruger oprettet succesfuldt!" ,
+            success: true, 
+            user: { 
+                id: user.id, 
+                username: user.username, 
+                saldo: user.saldo 
+            } 
+        };
 
     } catch (error) {
         console.error("🚨 Fejl ved signup:", error);
