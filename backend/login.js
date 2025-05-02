@@ -1,13 +1,13 @@
-const { getConnection } = require("./db"); // Importér databaseforbindelsen
+const { getConnection } = require("./db");
+const bcrypt = require("bcrypt");
 
-// ** Funktion til at verificere login **
 const loginUser = async (username, password) => {
-    const connection = await getConnection(); // Opret forbindelse
+    const connection = await getConnection();
 
     try {
         console.log("✅ Forbundet til MariaDB");
 
-        // 🔍 Hent brugeren fra databasen
+        // 1️⃣ Hent brugeren (inkluder det hashede password)
         const query = `SELECT id, username, password, saldo FROM users WHERE username = ?`;
         const [rows] = await connection.execute(query, [username]);
 
@@ -18,20 +18,30 @@ const loginUser = async (username, password) => {
 
         const user = rows[0];
 
-        // 🔑 Sammenlign password direkte (ikke sikker løsning!)
-        if (password !== user.password) {
+        // 2️⃣ Sammenlign indtastet password med hash i databasen
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
             console.log("❌ Forkert kodeord.");
             return { success: false, error: "Forkert brugernavn eller kodeord!" };
         }
 
+        // 3️⃣ Login succesfuldt (returner IKKE password!)
         console.log(`✅ Bruger logget ind: ${user.username}`);
-        return { success: true, user: { id: user.id, username: user.username, saldo: user.saldo } };
+        return { 
+            success: true, 
+            user: { 
+                id: user.id, 
+                username: user.username, 
+                saldo: user.saldo 
+            } 
+        };
 
     } catch (error) {
         console.error("🚨 Fejl ved login:", error);
         return { success: false, error: "Serverfejl, prøv igen senere!" };
     } finally {
-        await connection.end(); // Luk forbindelsen
+        await connection.end();
         console.log("🔌 Forbindelse lukket.");
     }
 };
